@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
+from config.settings import CADENA_CONEXION_POSTGRES, ESQUEMA_DB
 from db.connection import obtener_conexion
 from queries.debate_metrics import (
     obtener_ranking_sentimiento,
@@ -22,12 +23,17 @@ DEBATE_ID = "CR26_PRES_TSE_D1"
 
 # Generar conexión a la base de datos
 
-with obtener_conexion() as conexion:
+with obtener_conexion(
+    cadena_conexion=CADENA_CONEXION_POSTGRES,
+    esquema=ESQUEMA_DB,
+) as conexion:
+    
     ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
 
     if not ranking:
         st.warning("Aún no hay suficientes menciones para mostrar resultados.")
         st.stop()
+
 
     ranking = sorted(ranking, key=lambda x: x[4], reverse=True)
 

@@ -28,12 +28,6 @@ with obtener_conexion(
 ) as conexion:
     
     ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
-
-    if not ranking:
-        st.warning("Aún no hay suficientes menciones para mostrar resultados.")
-        st.stop()
-
-
     ranking = sorted(ranking, key=lambda x: x[4], reverse=True)
 
     mejor = ranking[0]
@@ -48,125 +42,131 @@ peor = ranking[-1]
 # --------------------
 # HERO: Pulso del debate
 # --------------------
-st.markdown("## 🔥 Pulso del Debate")
-
-st.markdown("### 🟢 Mejor sentimiento")
-st.metric(
-    label=mejor[0],
-    value=f"{mejor[4]:.2f}",
-    delta=f"{mejor[1]} menciones",
-)
-
+st.markdown("# 🔥 Pulso del Debate")
+st.caption("Monitoreo en tiempo real del debate presidencial CR26")
 st.markdown("---")
 
-st.markdown("### 🔴 Peor sentimiento")
-st.metric(
-    label=peor[0],
-    value=f"{peor[4]:.2f}",
-    delta=f"{peor[1]} menciones",
-)
+if not ranking:
+    st.info("Aún no hay menciones suficientes. El debate comenzará pronto.")
+else:
 
-st.markdown("---")
+    st.markdown("### 🟢 Mejor sentimiento")
+    st.metric(
+        label=mejor[0],
+        value=f"{mejor[4]:.2f}",
+        delta=f"{mejor[1]} menciones",
+    )
 
-# --------------------
-# Datos de sentimiento por candidato (UNA sola query)
-# --------------------
-sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
-df_sent = pd.DataFrame(
-    sentimientos,
-    columns=["candidate", "sentiment", "total"],
-)
+    st.markdown("---")
 
-# --------------------
-# Bloques por candidato
-# --------------------
-st.markdown("## 📊 Candidatos")
+    st.markdown("### 🔴 Peor sentimiento")
+    st.metric(
+        label=peor[0],
+        value=f"{peor[4]:.2f}",
+        delta=f"{peor[1]} menciones",
+    )
 
-for candidate, total, pos, neg, balance in ranking:
-    with st.container():
-        st.subheader(candidate)
+    st.markdown("---")
 
-        col1, col2, col3 = st.columns(3)
-        col1.metric("Menciones", total)
-        col2.metric("Positivas", pos)
-        col3.metric("Negativas", neg)
+    # --------------------
+    # Datos de sentimiento por candidato (UNA sola query)
+    # --------------------
+    sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
+    df_sent = pd.DataFrame(
+        sentimientos,
+        columns=["candidate", "sentiment", "total"],
+    )
 
-        # Barra de sentimiento normalizada (-1 a 1 → 0 a 1)
-        progreso = min(max((balance + 1) / 2, 0), 1)
-        st.progress(progreso)
-        st.caption(f"Balance de sentimiento: {balance:.2f}")
+    # --------------------
+    # Bloques por candidato
+    # --------------------
+    st.markdown("## 📊 Candidatos")
 
-        # Gráfico de sentimiento por candidato
-        df_cand = df_sent[df_sent["candidate"] == candidate]
+    for candidate, total, pos, neg, balance in ranking:
+        with st.container():
+            st.subheader(candidate)
 
-        if not df_cand.empty:
-            chart_sent = (
-                alt.Chart(df_cand)
-                .mark_bar()
-                .encode(
-                    x=alt.X("sentiment:N", title=""),
-                    y=alt.Y("total:Q", title=""),
-                    color=alt.Color(
-                        "sentiment:N",
-                        scale=alt.Scale(
-                            domain=["positive", "neutral", "negative"],
-                            range=["#2ecc71", "#bdc3c7", "#e74c3c"],
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Menciones", total)
+            col2.metric("Positivas", pos)
+            col3.metric("Negativas", neg)
+
+            # Barra de sentimiento normalizada (-1 a 1 → 0 a 1)
+            progreso = min(max((balance + 1) / 2, 0), 1)
+            st.progress(progreso)
+            st.caption(f"Balance de sentimiento: {balance:.2f}")
+
+            # Gráfico de sentimiento por candidato
+            df_cand = df_sent[df_sent["candidate"] == candidate]
+
+            if not df_cand.empty:
+                chart_sent = (
+                    alt.Chart(df_cand)
+                    .mark_bar()
+                    .encode(
+                        x=alt.X("sentiment:N", title=""),
+                        y=alt.Y("total:Q", title=""),
+                        color=alt.Color(
+                            "sentiment:N",
+                            scale=alt.Scale(
+                                domain=["positive", "neutral", "negative"],
+                                range=["#2ecc71", "#bdc3c7", "#e74c3c"],
+                            ),
+                            legend=None,
                         ),
-                        legend=None,
-                    ),
+                    )
+                    .properties(height=180)
                 )
-                .properties(height=180)
-            )
 
-            st.altair_chart(chart_sent, use_container_width=True)
+                st.altair_chart(chart_sent, use_container_width=True)
 
-        st.markdown("---")
+            st.markdown("---")
 
-# --------------------
-# Ranking emocional (comparativo)
-# --------------------
-st.markdown("## 🧠 Ranking emocional")
+    # --------------------
+    # Ranking emocional (comparativo)
+    # --------------------
+    st.markdown("## 🧠 Ranking emocional")
 
-df_rank = pd.DataFrame(
-    ranking,
-    columns=["candidate", "total", "pos", "neg", "balance"],
-)
-
-chart_rank = (
-    alt.Chart(df_rank)
-    .mark_bar()
-    .encode(
-        y=alt.Y("candidate:N", sort="-x", title=""),
-        x=alt.X("balance:Q", title="Balance de sentimiento"),
-        color=alt.condition(
-            alt.datum.balance > 0,
-            alt.value("#2ecc71"),
-            alt.value("#e74c3c"),
-        ),
-        tooltip=["candidate", "balance", "total"],
+    df_rank = pd.DataFrame(
+        ranking,
+        columns=["candidate", "total", "pos", "neg", "balance"],
     )
-    .properties(height=30 * len(df_rank))
-)
 
-st.altair_chart(chart_rank, use_container_width=True)
-
-# --------------------
-# Dónde ocurre el debate
-# --------------------
-st.markdown("## 🌐 Dónde ocurre el debate")
-
-redes = obtener_menciones_por_red(conexion, DEBATE_ID)
-df_redes = pd.DataFrame(redes, columns=["platform", "total"])
-
-chart_redes = (
-    alt.Chart(df_redes)
-    .mark_bar()
-    .encode(
-        x=alt.X("platform:N", title=""),
-        y=alt.Y("total:Q", title="Menciones"),
-        color=alt.value("#3498db"),
+    chart_rank = (
+        alt.Chart(df_rank)
+        .mark_bar()
+        .encode(
+            y=alt.Y("candidate:N", sort="-x", title=""),
+            x=alt.X("balance:Q", title="Balance de sentimiento"),
+            color=alt.condition(
+                alt.datum.balance > 0,
+                alt.value("#2ecc71"),
+                alt.value("#e74c3c"),
+            ),
+            tooltip=["candidate", "balance", "total"],
+        )
+        .properties(height=30 * len(df_rank))
     )
-    .properties(height=250)
-)
 
-st.altair_chart(chart_redes, use_container_width=True)
+    st.altair_chart(chart_rank, use_container_width=True)
+
+    # --------------------
+    # Dónde ocurre el debate
+    # --------------------
+    st.markdown("## 🌐 Dónde ocurre el debate")
+
+    redes = obtener_menciones_por_red(conexion, DEBATE_ID)
+    df_redes = pd.DataFrame(redes, columns=["platform", "total"])
+
+    chart_redes = (
+        alt.Chart(df_redes)
+        .mark_bar()
+        .encode(
+            x=alt.X("platform:N", title=""),
+            y=alt.Y("total:Q", title="Menciones"),
+            color=alt.value("#3498db"),
+        )
+        .properties(height=250)
+    )
+
+    st.altair_chart(chart_redes, use_container_width=True)

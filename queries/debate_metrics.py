@@ -6,7 +6,7 @@ def obtener_ranking_sentimiento(conexion, debate_id: str):
             COUNT(*) AS total_menciones,
             SUM(CASE WHEN sentiment_label = 'positive' THEN 1 ELSE 0 END) AS positivas,
             SUM(CASE WHEN sentiment_label = 'negative' THEN 1 ELSE 0 END) AS negativas
-        FROM mentions_raw
+        FROM ocdul_debates.mentions_raw
         WHERE debate_id = %(debate_id)s
           AND is_valid = TRUE
         GROUP BY candidate
@@ -31,7 +31,7 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str):
         candidate,
         sentiment_label,
         COUNT(*) AS total
-    FROM mentions_raw
+    FROM ocdul_debates.mentions_raw
     WHERE debate_id = %(debate_id)s
       AND is_valid = TRUE
     GROUP BY candidate, sentiment_label;
@@ -45,7 +45,7 @@ def obtener_menciones_por_red(conexion, debate_id: str):
     SELECT
         platform,
         COUNT(*) AS total
-    FROM mentions_raw
+    FROM ocdul_debates.mentions_raw
     WHERE debate_id = %(debate_id)s
       AND is_valid = TRUE
     GROUP BY platform

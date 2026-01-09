@@ -14,7 +14,7 @@ from queries.debate_metrics import (
 # Configuración general
 # --------------------
 st.set_page_config(
-    page_title="Debate CR26",
+    page_title="🇨🇷 Elecciones 2026 - Debate Presidencial",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
@@ -22,10 +22,10 @@ st.set_page_config(
 DEBATE_ID = "CR26_PRES_TSE_D1"
 
 # --------------------
-# Encabezado principal (SIEMPRE visible)
+# Encabezado principal
 # --------------------
-st.markdown("# 🔥 Pulso del Debate")
-st.caption("Monitoreo en tiempo real del debate presidencial CR26")
+st.markdown("# 🇨🇷 Elecciones 2026 - Debate Presidencial")
+st.caption("Monitoreo en tiempo real del debate presidencial")
 st.markdown("---")
 
 # --------------------

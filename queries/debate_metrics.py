@@ -24,3 +24,33 @@ def obtener_ranking_sentimiento(conexion, debate_id: str):
     with conexion.cursor() as cur:
         cur.execute(query, {"debate_id": debate_id})
         return cur.fetchall()
+
+def obtener_sentimiento_por_candidato(conexion, debate_id: str):
+    query = """
+    SELECT
+        candidate,
+        sentiment_label,
+        COUNT(*) AS total
+    FROM mentions_raw
+    WHERE debate_id = %(debate_id)s
+      AND is_valid = TRUE
+    GROUP BY candidate, sentiment_label;
+    """
+    with conexion.cursor() as cur:
+        cur.execute(query, {"debate_id": debate_id})
+        return cur.fetchall()
+
+def obtener_menciones_por_red(conexion, debate_id: str):
+    query = """
+    SELECT
+        platform,
+        COUNT(*) AS total
+    FROM mentions_raw
+    WHERE debate_id = %(debate_id)s
+      AND is_valid = TRUE
+    GROUP BY platform
+    ORDER BY total DESC;
+    """
+    with conexion.cursor() as cur:
+        cur.execute(query, {"debate_id": debate_id})
+        return cur.fetchall()

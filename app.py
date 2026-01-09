@@ -25,7 +25,6 @@ DEBATE_ID = "CR26_PRES_TSE_D1"
 
 with obtener_conexion(
     cadena_conexion=CADENA_CONEXION_POSTGRES,
-    esquema=ESQUEMA_DB,
 ) as conexion:
     
     ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)

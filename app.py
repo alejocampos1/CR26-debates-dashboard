@@ -20,19 +20,19 @@ st.set_page_config(
 
 DEBATE_ID = "CR26_PRES_TSE_D1"
 
-# --------------------
-# Conexión DB (una sola vez)
-# --------------------
-conexion = obtener_conexion()
+# Generar conexión a la base de datos
 
-# --------------------
-# Datos base
-# --------------------
-ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
+with obtener_conexion() as conexion:
+    ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
 
-if not ranking:
-    st.warning("Aún no hay suficientes menciones para mostrar resultados.")
-    st.stop()
+    if not ranking:
+        st.warning("Aún no hay suficientes menciones para mostrar resultados.")
+        st.stop()
+
+    ranking = sorted(ranking, key=lambda x: x[4], reverse=True)
+
+    mejor = ranking[0]
+    peor = ranking[-1]
 
 # Garantizar orden correcto por balance de sentimiento
 ranking = sorted(ranking, key=lambda x: x[4], reverse=True)

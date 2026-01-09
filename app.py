@@ -1,54 +1,69 @@
-import time
 import streamlit as st
-import pandas as pd
-
-from config.settings import CADENA_CONEXION_POSTGRES
 from db.connection import obtener_conexion
-from queries.base import obtener_menciones_base
+from queries.debate_metrics import obtener_ranking_sentimiento
 
-
+# --------------------
+# Configuración general
+# --------------------
 st.set_page_config(
-    page_title="Debate Presidencial – Monitoreo en Tiempo Real",
-    layout="wide",
+    page_title="Debate CR26",
+    layout="centered",
+    initial_sidebar_state="collapsed"
 )
 
-st.title("📊 Debate Presidencial – Conversación Digital")
+DEBATE_ID = "CR26_PRES_TSE_D1"
 
-REFRESH_SEGUNDOS = 30
+# Conexión DB
+conexion = obtener_conexion()
+
+# Datos
+ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
+
+if not ranking:
+    st.warning("Aún no hay suficientes menciones para mostrar resultados.")
+    st.stop()
+
+mejor = ranking[0]
+peor = ranking[-1]
 
 
-def cargar_datos():
-    with obtener_conexion(CADENA_CONEXION_POSTGRES) as conn:
-        return obtener_menciones_base(conn)
+# HERO: Mejores / Peores
+st.markdown("## 🔥 Pulso del Debate")
+
+st.markdown("### 🟢 Mejor sentimiento")
+st.metric(
+    label=mejor[0],
+    value=f"{mejor[4]:.2f}",
+    delta=f"{mejor[1]} menciones"
+)
+
+st.markdown("---")
+
+st.markdown("### 🔴 Peor sentimiento")
+st.metric(
+    label=peor[0],
+    value=f"{peor[4]:.2f}",
+    delta=f"{peor[1]} menciones"
+)
+
+st.markdown("---")
 
 
-placeholder = st.empty()
+# Bloques por candidato
+st.markdown("## 📊 Candidatos")
 
-while True:
-    with placeholder.container():
-        try:
-            df = cargar_datos()
+for c in ranking:
+    candidate, total, pos, neg, balance = c
 
-            if df.empty:
-                st.info(
-                    "⏳ El sistema está activo, pero aún no hay menciones recolectadas."
-                )
-            else:
-                total = len(df)
-                st.metric("Total de menciones válidas", total)
+    with st.container():
+        st.subheader(candidate)
+        col1, col2, col3 = st.columns(3)
 
-                conteo = (
-                    df.groupby("candidate")
-                    .size()
-                    .reset_index(name="menciones")
-                )
+        col1.metric("Menciones", total)
+        col2.metric("Positivas", pos)
+        col3.metric("Negativas", neg)
 
-                st.subheader("Menciones por candidato")
-                st.dataframe(conteo, use_container_width=True)
+        st.progress(min(max((balance + 1) / 2, 0), 1))
+        st.caption(f"Balance de sentimiento: {balance:.2f}")
 
-        except Exception as e:
-            st.error("Error al consultar la base de datos")
-            st.exception(e)
-
-    time.sleep(REFRESH_SEGUNDOS)
-    st.experimental_rerun()
+        st.markdown("---")

@@ -21,35 +21,49 @@ st.set_page_config(
 
 DEBATE_ID = "CR26_PRES_TSE_D1"
 
-# Generar conexión a la base de datos
-
-with obtener_conexion(
-    cadena_conexion=CADENA_CONEXION_POSTGRES,
-) as conexion:
-    
-    ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
-    ranking = sorted(ranking, key=lambda x: x[4], reverse=True)
-
-    mejor = ranking[0]
-    peor = ranking[-1]
-
-# Garantizar orden correcto por balance de sentimiento
-ranking = sorted(ranking, key=lambda x: x[4], reverse=True)
-
-mejor = ranking[0]
-peor = ranking[-1]
-
 # --------------------
-# HERO: Pulso del debate
+# Encabezado principal (SIEMPRE visible)
 # --------------------
 st.markdown("# 🔥 Pulso del Debate")
 st.caption("Monitoreo en tiempo real del debate presidencial CR26")
 st.markdown("---")
 
-if not ranking:
-    st.info("Aún no hay menciones suficientes. El debate comenzará pronto.")
-else:
+# --------------------
+# Conexión y carga de datos
+# --------------------
+with obtener_conexion(
+    cadena_conexion=CADENA_CONEXION_POSTGRES,
+) as conexion:
 
+    ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
+
+    if ranking:
+        ranking = sorted(ranking, key=lambda x: x[4], reverse=True)
+        mejor = ranking[0]
+        peor = ranking[-1]
+
+        sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
+        df_sent = pd.DataFrame(
+            sentimientos,
+            columns=["candidate", "sentiment", "total"],
+        )
+
+        redes = obtener_menciones_por_red(conexion, DEBATE_ID)
+        df_redes = pd.DataFrame(
+            redes,
+            columns=["platform", "total"],
+        )
+
+    else:
+        df_sent = pd.DataFrame()
+        df_redes = pd.DataFrame()
+
+# --------------------
+# HERO: Mejor / Peor sentimiento
+# --------------------
+if not ranking:
+    st.info("⏳ Aún no hay menciones suficientes. El debate comenzará pronto.")
+else:
     st.markdown("### 🟢 Mejor sentimiento")
     st.metric(
         label=mejor[0],
@@ -69,16 +83,7 @@ else:
     st.markdown("---")
 
     # --------------------
-    # Datos de sentimiento por candidato (UNA sola query)
-    # --------------------
-    sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
-    df_sent = pd.DataFrame(
-        sentimientos,
-        columns=["candidate", "sentiment", "total"],
-    )
-
-    # --------------------
-    # Bloques por candidato
+    # Bloques dinámicos por candidato
     # --------------------
     st.markdown("## 📊 Candidatos")
 
@@ -91,12 +96,10 @@ else:
             col2.metric("Positivas", pos)
             col3.metric("Negativas", neg)
 
-            # Barra de sentimiento normalizada (-1 a 1 → 0 a 1)
             progreso = min(max((balance + 1) / 2, 0), 1)
             st.progress(progreso)
             st.caption(f"Balance de sentimiento: {balance:.2f}")
 
-            # Gráfico de sentimiento por candidato
             df_cand = df_sent[df_sent["candidate"] == candidate]
 
             if not df_cand.empty:
@@ -123,7 +126,7 @@ else:
             st.markdown("---")
 
     # --------------------
-    # Ranking emocional (comparativo)
+    # Ranking emocional comparativo
     # --------------------
     st.markdown("## 🧠 Ranking emocional")
 
@@ -151,22 +154,20 @@ else:
     st.altair_chart(chart_rank, use_container_width=True)
 
     # --------------------
-    # Dónde ocurre el debate
+    # Distribución por red social
     # --------------------
     st.markdown("## 🌐 Dónde ocurre el debate")
 
-    redes = obtener_menciones_por_red(conexion, DEBATE_ID)
-    df_redes = pd.DataFrame(redes, columns=["platform", "total"])
-
-    chart_redes = (
-        alt.Chart(df_redes)
-        .mark_bar()
-        .encode(
-            x=alt.X("platform:N", title=""),
-            y=alt.Y("total:Q", title="Menciones"),
-            color=alt.value("#3498db"),
+    if not df_redes.empty:
+        chart_redes = (
+            alt.Chart(df_redes)
+            .mark_bar()
+            .encode(
+                x=alt.X("platform:N", title=""),
+                y=alt.Y("total:Q", title="Menciones"),
+                color=alt.value("#3498db"),
+            )
+            .properties(height=250)
         )
-        .properties(height=250)
-    )
 
-    st.altair_chart(chart_redes, use_container_width=True)
+        st.altair_chart(chart_redes, use_container_width=True)

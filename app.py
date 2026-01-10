@@ -427,9 +427,17 @@ with col_footer_text:
     )
 
 with col_footer_logo:
-    st.markdown(
-        """
-            <img src="assets/logo.png" style="max-width:120px;">
-        """,
-        unsafe_allow_html=True,
+    if st.button(" ", key="logo_link"):
+        st.markdown(
+            """
+            <script>
+                window.open("https://www.facebook.com/crsoundcheck", "_blank");
+            </script>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    st.image(
+        "assets/logo.png",
+        width=120,
     )

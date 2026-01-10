@@ -254,7 +254,7 @@ st.markdown("---")
 # --------------------
 # Bloques por candidato
 # --------------------
-st.markdown("## Candidaturas")
+st.markdown("# Candidaturas")
 st.markdown("#### Evolución de la conversación digital por candidato")
 st.markdown("---")
 
@@ -370,11 +370,13 @@ if not df_tiempo.empty:
 else:
     st.info("⏳ Aún no hay datos temporales suficientes.")
 
+st.markdown("---")
+
 # --------------------
 # Distribución por red social
 # --------------------
 st.markdown("## Dónde ocurre la conversación")
-st.markdown("#### Distribución de la conversación digital por red social (Cantidad de menciones)")
+st.markdown("#### Distribución por red social (Cantidad de menciones)")
 
 if not df_redes.empty:
     fig_redes = px.bar(

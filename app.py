@@ -429,9 +429,5 @@ with col_footer_text:
 with col_footer_logo:
     st.image(
         "assets/logo.png",
-        width=120,
-    )
-    st.caption(
-        "[CR Soundcheck](https://www.facebook.com/crsoundcheck)",
-        unsafe_allow_html=True,
+        width=250,
     )

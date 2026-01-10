@@ -119,8 +119,20 @@ for _, fila in df_rank.iterrows():
         st.subheader(candidate)
 
         col1, col2, col3 = st.columns(3)
-        col1.metric("Atención", f"{int(total)}")
-        col1.caption("menciones")
+        with col1:
+            st.markdown(
+                f"""
+                <div style="text-align:center;">
+                    <div style="font-size:28px; font-weight:700;">
+                        {int(total):,}
+                    </div>
+                    <div style="font-size:12px; color:#666;">
+                        menciones
+                    </div>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
         col2.metric("Positivo", f"{(pos/total)*100:.1f}%")
         col3.metric("Negativo", f"{(neg/total)*100:.1f}%")
 

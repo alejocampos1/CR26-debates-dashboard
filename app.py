@@ -66,6 +66,25 @@ PALETA_NEUTRA = [
     "#7f7f7f",  
 ]
 
+
+# Componentes de cálculo de porcentajes para el HERO
+def badge_apoyo(valor):
+    color = "#2ecc71" if valor >= 0 else "#e74c3c"
+    signo = "+" if valor >= 0 else ""
+    return f"""
+    <div style="
+        display:inline-block;
+        padding:8px 16px;
+        border-radius:8px;
+        background-color:{color};
+        color:white;
+        font-size:28px;
+        font-weight:700;
+    ">
+        {signo}{valor:.1f}%
+    </div>
+    """
+
 # Auto-refresh (cada 60 segundos)
 st_autorefresh(interval=60 * 1000, key="auto_refresh")
 
@@ -192,8 +211,6 @@ mas_rechazo = df_hero.sort_values(
 
 col1, col2 = st.columns(2)
 
-col1, col2 = st.columns(2)
-
 # Mayor apoyo neto
 with col1:
     st.markdown("### 🟢 Mayor apoyo neto")
@@ -206,9 +223,7 @@ with col1:
 
     st.markdown(f"### {mas_apoyo['candidate']}")
     st.markdown(
-        f"<span style='font-size:26px; font-weight:600;'>"
-        f"{mas_apoyo['apoyo_neto_pct']:+.1f}%*"
-        f"</span>",
+        badge_apoyo(mas_apoyo["apoyo_neto_pct"]),
         unsafe_allow_html=True,
     )
 
@@ -224,9 +239,7 @@ with col2:
 
     st.markdown(f"### {mas_rechazo['candidate']}")
     st.markdown(
-        f"<span style='font-size:26px; font-weight:600;'>"
-        f"{mas_rechazo['apoyo_neto_pct']:+.1f}%*"
-        f"</span>",
+        badge_apoyo(mas_rechazo["apoyo_neto_pct"]),
         unsafe_allow_html=True,
     )
 

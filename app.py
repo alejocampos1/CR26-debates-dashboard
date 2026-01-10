@@ -174,17 +174,43 @@ mas_rechazo = df_hero.sort_values(
 
 col1, col2 = st.columns(2)
 
-col1.metric(
-    label="🟢  Mayor apoyo neto",
-    value=mas_apoyo["candidate"],
-    delta=f'{mas_apoyo["apoyo_neto_pct"]:+.1f}%',
-)
+col1, col2 = st.columns(2)
 
-col2.metric(
-    label="🔴  Mayor rechazo neto",
-    value=mas_rechazo["candidate"],
-    delta=f'{mas_rechazo["apoyo_neto_pct"]:+.1f}%',
-)
+# Mayor apoyo neto
+with col1:
+    st.markdown("### 🟢 Mayor apoyo neto")
+
+    if mas_apoyo["candidate"] in MAPA_IMAGENES:
+        st.image(
+            MAPA_IMAGENES[mas_apoyo["candidate"]],
+            width=120,
+        )
+
+    st.markdown(f"**{mas_apoyo['candidate']}**")
+    st.markdown(
+        f"<span style='font-size:26px; font-weight:600;'>"
+        f"{mas_apoyo['apoyo_neto_pct']:+.1f}%"
+        f"</span>",
+        unsafe_allow_html=True,
+    )
+
+# Mayor rechazo neto
+with col2:
+    st.markdown("### 🔴 Mayor rechazo neto")
+
+    if mas_rechazo["candidate"] in MAPA_IMAGENES:
+        st.image(
+            MAPA_IMAGENES[mas_rechazo["candidate"]],
+            width=120,
+        )
+
+    st.markdown(f"**{mas_rechazo['candidate']}**")
+    st.markdown(
+        f"<span style='font-size:26px; font-weight:600;'>"
+        f"{mas_rechazo['apoyo_neto_pct']:+.1f}%"
+        f"</span>",
+        unsafe_allow_html=True,
+    )
 
 st.caption(
     "Apoyo neto = % positivas − % negativas (solo candidaturas con volumen relevante)"

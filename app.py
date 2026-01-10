@@ -62,6 +62,7 @@ with obtener_conexion(
     volumen_temporal = obtener_volumen_temporal_por_candidato(
         conexion,
         DEBATE_ID,
+        intervalo="15 minutes"
     )
 
 # DataFrames (fuera del with)

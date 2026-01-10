@@ -58,7 +58,7 @@ def obtener_menciones_por_red(conexion, debate_id: str):
 def obtener_volumen_temporal_por_candidato(
     conexion,
     debate_id: str,
-    intervalo: str = "minute",
+    intervalo: str = "15 minutes",
 ):
     with conexion.cursor() as cursor:
         cursor.execute(

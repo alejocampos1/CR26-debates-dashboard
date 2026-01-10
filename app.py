@@ -400,21 +400,38 @@ if not df_redes.empty:
     
 st.markdown("---")
 
-st.markdown(
-    """
-    <div style="
-        font-size:13px;
-        color:#6c757d;
-        line-height:1.5;
-    ">
-    <strong>Metodología y limitaciones:</strong>
-    Este análisis monitorea conversaciones públicas en Facebook, X (Twitter), Instagram y TikTok,
-    considerando el universo total de menciones digitales asociadas a cada candidatura y su entorno.
-    A diferencia de los estudios de opinión tradicionales, no se basa en encuestas ni en opiniones
-    declaradas, sino en comportamientos digitales observables (qué se comenta y qué se amplifica).
-    Los resultados no constituyen una predicción electoral y están sujetos a sesgos propios de cada
-    plataforma y de la composición demográfica de sus usuarios.
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+col_footer_text, col_footer_logo = st.columns([4, 1])
+
+with col_footer_text:
+    st.markdown(
+        """
+        <div style="
+            font-size:13px;
+            color:#6c757d;
+            line-height:1.5;
+        ">
+        <strong>Metodología y limitaciones:</strong><br>
+        Este análisis monitorea conversaciones públicas en Facebook, X (Twitter), Instagram y TikTok,
+        considerando el universo total de menciones digitales asociadas a cada candidatura y su entorno.
+        A diferencia de los estudios de opinión tradicionales, no se basa en encuestas ni en opiniones
+        declaradas, sino en comportamientos digitales observables (qué se comenta y qué se amplifica).
+        Los resultados no constituyen una predicción electoral y están sujetos a sesgos propios de cada
+        plataforma y de la composición demográfica de sus usuarios.
+        <br><br>
+        <strong>© 2026 – Todos los derechos reservados.</strong>
+        El contenido, visualizaciones y métricas presentadas en este tablero son propiedad intelectual
+        de sus autores y no pueden ser reproducidos, redistribuidos ni utilizados sin autorización expresa.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+with col_footer_logo:
+    st.markdown(
+        """
+        <a href="https://www.facebook.com/crsoundcheck" target="_blank">
+            <img src="assets/logo.png" style="max-width:120px; opacity:0.9;">
+        </a>
+        """,
+        unsafe_allow_html=True,
+    )

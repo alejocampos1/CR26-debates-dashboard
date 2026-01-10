@@ -46,22 +46,29 @@ st.markdown(
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-    html, body, [class*="css"] {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-                     Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    /* FUERZA TIPOGRAFÍA EN TODO STREAMLIT */
+    .stApp, .stApp * {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont,
+                     'Segoe UI', Roboto, Oxygen, Ubuntu,
+                     Cantarell, 'Helvetica Neue', sans-serif !important;
     }
 
-    h1, h2, h3, h4, h5 {
-        font-weight: 600;
+    /* Títulos */
+    .stApp h1,
+    .stApp h2,
+    .stApp h3,
+    .stApp h4,
+    .stApp h5 {
+        font-weight: 600 !important;
         letter-spacing: -0.02em;
     }
 
     /* Métricas */
-    div[data-testid="metric-container"] {
-        font-family: 'Inter', sans-serif;
+    div[data-testid="metric-container"] * {
+        font-family: 'Inter', sans-serif !important;
     }
 
-    /* Captions y texto secundario */
+    /* Captions */
     .stCaption {
         font-size: 0.85rem;
         color: #6c757d;
@@ -152,7 +159,8 @@ MAPA_PARTIDOS = {
 # Encabezado
 # --------------------
 st.markdown("# 🇨🇷 Elecciones 2026 – Debate Presidencial")
-st.caption("Monitoreo en tiempo real del debate")
+st.caption("## Monitoreo en tiempo real del debate")
+st.caption("### Powered by [SoundCheck CR](https://www.facebook.com/crsoundcheck)")
 st.markdown("---")
 
 # --------------------

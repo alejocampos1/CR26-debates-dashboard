@@ -178,7 +178,7 @@ col1, col2 = st.columns(2)
 
 # Mayor apoyo neto
 with col1:
-    st.markdown("### 🟢 Mayor apoyo neto")
+    st.markdown("## 🟢 Mayor apoyo neto")
 
     if mas_apoyo["candidate"] in MAPA_IMAGENES:
         st.image(
@@ -186,7 +186,7 @@ with col1:
             width=120,
         )
 
-    st.markdown(f"**{mas_apoyo['candidate']}**")
+    st.markdown(f"### {mas_apoyo['candidate']}")
     st.markdown(
         f"<span style='font-size:26px; font-weight:600;'>"
         f"{mas_apoyo['apoyo_neto_pct']:+.1f}%"
@@ -196,7 +196,7 @@ with col1:
 
 # Mayor rechazo neto
 with col2:
-    st.markdown("### 🔴 Mayor rechazo neto")
+    st.markdown("## 🔴 Mayor rechazo neto")
 
     if mas_rechazo["candidate"] in MAPA_IMAGENES:
         st.image(
@@ -204,7 +204,7 @@ with col2:
             width=120,
         )
 
-    st.markdown(f"**{mas_rechazo['candidate']}**")
+    st.markdown(f"### {mas_rechazo['candidate']}")
     st.markdown(
         f"<span style='font-size:26px; font-weight:600;'>"
         f"{mas_rechazo['apoyo_neto_pct']:+.1f}%"

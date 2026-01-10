@@ -80,7 +80,7 @@ with obtener_conexion(
         df_redes = pd.DataFrame()
 
 # --------------------
-# HERO – Morbo controlado
+# HERO – Apoyo / Rechazo neto (porcentual)
 # --------------------
 if df_rank.empty:
     st.info("⏳ Aún no hay suficientes menciones. El debate comenzará pronto.")
@@ -92,31 +92,37 @@ if df_hero.empty:
     st.info("⏳ Aún no hay volumen suficiente para destacar apoyos o rechazos.")
     st.stop()
 
-df_hero["pct_pos"] = df_hero["pos"] / df_hero["total"]
-df_hero["pct_neg"] = df_hero["neg"] / df_hero["total"]
+# Índice neto en porcentaje
+df_hero["apoyo_neto_pct"] = (
+    (df_hero["pos"] - df_hero["neg"]) / df_hero["total"]
+) * 100
 
-mejor_positivo = df_hero.sort_values(
-    ["pct_pos", "total"],
+mas_apoyo = df_hero.sort_values(
+    ["apoyo_neto_pct", "total"],
     ascending=[False, False],
 ).iloc[0]
 
-peor_negativo = df_hero.sort_values(
-    ["pct_neg", "total"],
-    ascending=[False, False],
+mas_rechazo = df_hero.sort_values(
+    ["apoyo_neto_pct", "total"],
+    ascending=[True, False],
 ).iloc[0]
 
 col1, col2 = st.columns(2)
 
 col1.metric(
-    label="🟢 Mejor imagen positiva",
-    value=mejor_positivo["candidate"],
-    delta=f'{mejor_positivo["pct_pos"]*100:.1f}% positivas',
+    label="🟢 Mayor apoyo neto",
+    value=mas_apoyo["candidate"],
+    delta=f'{mas_apoyo["apoyo_neto_pct"]:+.1f}%',
 )
 
 col2.metric(
-    label="🔴 Mayor rechazo",
-    value=peor_negativo["candidate"],
-    delta=f'{peor_negativo["pct_neg"]*100:.1f}% negativas',
+    label="🔴 Mayor rechazo neto",
+    value=mas_rechazo["candidate"],
+    delta=f'{mas_rechazo["apoyo_neto_pct"]:+.1f}%',
+)
+
+st.caption(
+    "Apoyo neto = % positivas − % negativas (solo candidatos con volumen relevante)"
 )
 
 st.markdown("---")

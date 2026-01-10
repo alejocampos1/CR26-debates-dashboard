@@ -38,10 +38,10 @@ MAPEO_SENTIMIENTO_UI = {
 
 ORDEN_SENTIMIENTO = ["Positivo", "Neutro", "Negativo"]
 
-RUTA_IMAGENES = "assets/candidaturas"
+RUTA_IMAGENES = "assets/candidatos"
 
 MAPA_IMAGENES = {
-    "Natalia Diaz": f"{RUTA_IMAGENES}/Natalia_Diaz.png",
+    "Natalia Díaz": f"{RUTA_IMAGENES}/Natalia_Diaz.png",
     "Boris Molina": f"{RUTA_IMAGENES}/Boris_Molina.png",
     "Fernando Zamora": f"{RUTA_IMAGENES}/Fernando_Zamora.png",
     "Walter Hernandez": f"{RUTA_IMAGENES}/Walter_Hernandez.png",
@@ -49,7 +49,7 @@ MAPA_IMAGENES = {
 }
 
 MAPA_PARTIDOS = {
-    "Natalia Diaz": "Partido Unidos Podemos",
+    "Natalia Díaz": "Partido Unidos Podemos",
     "Luz Mary Alpízar": "Partido Progreso Social Democrático",
     "Boris Molina": "Partido Unión Costarricense Democrática",
     "Fernando Zamora": "Partido Nueva Generación",

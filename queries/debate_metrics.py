@@ -12,7 +12,7 @@ def obtener_ranking_sentimiento(conexion, debate_id: str):
             AND is_valid = TRUE
             AND (
                 original_timestamp AT TIME ZONE 'America/Costa_Rica'
-            ) >= TIMESTAMP '2026-01-09 18:00:00'
+            ) >= TIMESTAMP '2026-01-09 17:00:00'
         GROUP BY candidate
     ),
     filtrado AS (
@@ -41,7 +41,7 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str):
         AND is_valid = TRUE
         AND (
             original_timestamp AT TIME ZONE 'America/Costa_Rica'
-        ) >= TIMESTAMP '2026-01-09 18:00:00'
+        ) >= TIMESTAMP '2026-01-09 17:00:00'
     GROUP BY candidate, sentiment_label;
     """
     with conexion.cursor() as cur:
@@ -93,7 +93,7 @@ def obtener_volumen_temporal_por_candidato(
                 AND is_valid = TRUE
                 AND (
                     original_timestamp AT TIME ZONE 'America/Costa_Rica'
-                ) >= TIMESTAMP '2026-01-09 18:00:00'
+                ) >= TIMESTAMP '2026-01-09 17:00:00'
             GROUP BY 1, 2
             ORDER BY 1 ASC
             """,

@@ -397,3 +397,24 @@ if not df_redes.empty:
     )
 
     st.plotly_chart(fig_redes, use_container_width=True)
+    
+st.markdown("---")
+
+st.markdown(
+    """
+    <div style="
+        font-size:13px;
+        color:#6c757d;
+        line-height:1.5;
+    ">
+    <strong>Metodología y limitaciones:</strong>
+    Este análisis monitorea conversaciones públicas en Facebook, X (Twitter), Instagram y TikTok,
+    considerando el universo total de menciones digitales asociadas a cada candidatura y su entorno.
+    A diferencia de los estudios de opinión tradicionales, no se basa en encuestas ni en opiniones
+    declaradas, sino en comportamientos digitales observables (qué se comenta y qué se amplifica).
+    Los resultados no constituyen una predicción electoral y están sujetos a sesgos propios de cada
+    plataforma y de la composición demográfica de sus usuarios.
+    </div>
+    """,
+    unsafe_allow_html=True,
+)

@@ -146,16 +146,16 @@ for _, fila in df_rank.iterrows():
         if not df_cand.empty:
             fig_sent = px.bar(
                 df_cand,
-                x="sentiment",
+                x="sentimiento_es",
                 y="total",
-                color="sentiment",
+                color="sentimiento_es",
                 color_discrete_map={
-                    "positive": "#2ecc71",
-                    "neutral": "#bdc3c7",
-                    "negative": "#e74c3c",
+                    "Positivo": "#2ecc71",
+                    "Neutro": "#bdc3c7",
+                    "Negativo": "#e74c3c",
                 },
                 labels={
-                    "sentiment": "Sentimiento",
+                    "sentimiento_es": "Sentimiento",
                     "total": "Menciones",
                 },
             )

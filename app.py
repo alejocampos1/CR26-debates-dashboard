@@ -38,7 +38,7 @@ MAPEO_SENTIMIENTO_UI = {
 
 ORDEN_SENTIMIENTO = ["Positivo", "Neutro", "Negativo"]
 
-RUTA_IMAGENES = "assets/candidatos"
+RUTA_IMAGENES = "assets/candidaturas"
 
 MAPA_IMAGENES = {
     "Natalia Diaz": f"{RUTA_IMAGENES}/Natalia_Diaz.png",
@@ -46,6 +46,14 @@ MAPA_IMAGENES = {
     "Fernando Zamora": f"{RUTA_IMAGENES}/Fernando_Zamora.png",
     "Walter Hernandez": f"{RUTA_IMAGENES}/Walter_Hernandez.png",
     "Luz Mary Alpízar": f"{RUTA_IMAGENES}/Luz_Mary_Alpizar.png",
+}
+
+MAPA_PARTIDOS = {
+    "Natalia Diaz": "Partido Unidos Podemos",
+    "Luz Mary Alpízar": "Partido Progreso Social Democrático",
+    "Boris Molina": "Partido Unión Costarricense Democrática",
+    "Fernando Zamora": "Partido Nueva Generación",
+    "Walter Hernandez": "Partido Justicia Social Costarricense",
 }
 
 # --------------------
@@ -135,19 +143,19 @@ mas_rechazo = df_hero.sort_values(
 col1, col2 = st.columns(2)
 
 col1.metric(
-    label="🟢 Mayor apoyo neto",
+    label="🟢  Mayor apoyo neto",
     value=mas_apoyo["candidate"],
     delta=f'{mas_apoyo["apoyo_neto_pct"]:+.1f}%',
 )
 
 col2.metric(
-    label="🔴 Mayor rechazo neto",
+    label="🔴  Mayor rechazo neto",
     value=mas_rechazo["candidate"],
     delta=f'{mas_rechazo["apoyo_neto_pct"]:+.1f}%',
 )
 
 st.caption(
-    "Apoyo neto = % positivas − % negativas (solo candidatos con volumen relevante)"
+    "Apoyo neto = % positivas − % negativas (solo candidaturas con volumen relevante)"
 )
 
 st.markdown("---")
@@ -155,7 +163,7 @@ st.markdown("---")
 # --------------------
 # Bloques por candidato
 # --------------------
-st.markdown("## 🧑‍💼 Candidatos")
+st.markdown("## Candidaturas")
 
 for _, fila in df_rank.iterrows():
     candidate = fila["candidate"]
@@ -176,6 +184,10 @@ for _, fila in df_rank.iterrows():
 
         with col_title:
             st.subheader(candidate)
+            
+            partido = MAPA_PARTIDOS.get(candidate)
+            if partido:
+                st.caption(partido)
 
         st.markdown(
             f" ### {int(total):,} menciones",
@@ -186,11 +198,11 @@ for _, fila in df_rank.iterrows():
         col2.metric("Negativo", f"{(neg / total) * 100:.1f}%")
 
         if neg / total > 0.4:
-            st.error("⚠️ - Alta presión negativa")
+            st.error("⚠️  Alta presión negativa")
         elif pos / total > 0.4:
-            st.success("🟢 - Conversación mayoritariamente favorable")
+            st.success("🟢  Conversación mayoritariamente favorable")
         else:
-            st.info("🟡 - Conversación mixta / indecisa")
+            st.info("🟡  Conversación mixta / indecisa")
             
         df_cand = df_sent[df_sent["candidate"] == candidate].copy()
 

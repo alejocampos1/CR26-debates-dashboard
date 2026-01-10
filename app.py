@@ -290,6 +290,7 @@ if not df_tiempo.empty:
         x="tiempo",
         y="total",
         color="candidate",
+        color_discrete_sequence=PALETA_NEUTRA
         labels={
             "tiempo": "Tiempo",
             "total": "Menciones",
@@ -298,7 +299,6 @@ if not df_tiempo.empty:
     )
 
     fig_tiempo.update_layout(
-        colorway=PALETA_NEUTRA,
         height=380,
         margin=dict(t=20, b=40, l=20, r=20),
         legend_title_text="",

@@ -64,11 +64,21 @@ MAPA_REDES_UI = {
 }
 
 MAPA_COLORES_REDES = {
-    "X (Twitter)": "#19FFE8",
+    "X (Twitter)": "#14B7A6",
     "Facebook": "#1877F2",
-    "Instagram": "#AF30E1",
-    "TikTok": "#D12A2A",
+    "Instagram": "#F15BCB",
+    "TikTok": "#A056E6",
 }
+
+PALETA_NEUTRA = [
+    "#1f77b4",  
+    "#9467bd",  
+    "#17becf",  
+    "#ff7f0e",  
+    "#8c564b",  
+    "#e377c2",  
+    "#7f7f7f",  
+]
 
 # --------------------
 # Encabezado
@@ -288,6 +298,7 @@ if not df_tiempo.empty:
     )
 
     fig_tiempo.update_layout(
+        colorway=PALETA_NEUTRA,
         height=380,
         margin=dict(t=20, b=40, l=20, r=20),
         legend_title_text="",

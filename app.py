@@ -178,7 +178,7 @@ col1, col2 = st.columns(2)
 
 # Mayor apoyo neto
 with col1:
-    st.markdown("## 🟢 Mayor apoyo neto")
+    st.markdown("### 🟢 Mayor apoyo neto")
 
     if mas_apoyo["candidate"] in MAPA_IMAGENES:
         st.image(
@@ -196,7 +196,7 @@ with col1:
 
 # Mayor rechazo neto
 with col2:
-    st.markdown("## 🔴 Mayor rechazo neto")
+    st.markdown("### 🔴 Mayor rechazo neto")
 
     if mas_rechazo["candidate"] in MAPA_IMAGENES:
         st.image(

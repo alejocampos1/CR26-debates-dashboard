@@ -8,6 +8,7 @@ from queries.debate_metrics import (
     obtener_ranking_sentimiento,
     obtener_sentimiento_por_candidato,
     obtener_menciones_por_red,
+    obtener_volumen_temporal_por_candidato
 )
 
 MIN_MENCIONES_HERO = 50
@@ -78,6 +79,16 @@ with obtener_conexion(
         df_rank = pd.DataFrame()
         df_sent = pd.DataFrame()
         df_redes = pd.DataFrame()
+        
+        volumen_temporal = obtener_volumen_temporal_por_candidato(
+        conexion,
+        DEBATE_ID,
+    )
+
+    df_tiempo = pd.DataFrame(
+        volumen_temporal,
+        columns=["tiempo", "candidate", "total"],
+    )
 
 # --------------------
 # HERO – Apoyo / Rechazo neto (porcentual)
@@ -209,6 +220,34 @@ for _, fila in df_rank.iterrows():
             st.plotly_chart(fig_sent, use_container_width=True)
 
         st.markdown("---")
+     
+# --------------------
+# Evolución del debate en el tiempo
+# --------------------        
+st.markdown("## ⏱️ Evolución del debate en el tiempo")
+
+if not df_tiempo.empty:
+    fig_tiempo = px.line(
+        df_tiempo,
+        x="tiempo",
+        y="total",
+        color="candidate",
+        labels={
+            "tiempo": "Tiempo",
+            "total": "Menciones",
+            "candidate": "Candidato",
+        },
+    )
+
+    fig_tiempo.update_layout(
+        height=380,
+        margin=dict(t=20, b=40, l=20, r=20),
+        legend_title_text="",
+    )
+
+    st.plotly_chart(fig_tiempo, use_container_width=True)
+else:
+    st.info("⏳ Aún no hay datos temporales suficientes.")
 
 # --------------------
 # Distribución por red social

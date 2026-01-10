@@ -54,3 +54,26 @@ def obtener_menciones_por_red(conexion, debate_id: str):
     with conexion.cursor() as cur:
         cur.execute(query, {"debate_id": debate_id})
         return cur.fetchall()
+    
+def obtener_volumen_temporal_por_candidato(
+    conexion,
+    debate_id: str,
+    intervalo: str = "minute",
+):
+    with conexion.cursor() as cursor:
+        cursor.execute(
+            """
+            SELECT
+                date_trunc(%s, original_timestamp) AS tiempo,
+                candidate,
+                COUNT(*) AS total
+            FROM ocdul_debates.mentions_raw
+            WHERE
+                debate_id = %s
+                AND is_valid = TRUE
+            GROUP BY 1, 2
+            ORDER BY 1 ASC
+            """,
+            (intervalo, debate_id),
+        )
+        return cursor.fetchall()

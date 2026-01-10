@@ -57,38 +57,45 @@ with obtener_conexion(
 ) as conexion:
 
     ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
-
-    if ranking:
-        df_rank = pd.DataFrame(
-            ranking,
-            columns=["candidate", "total", "pos", "neg", "balance"],
-        )
-
-        sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
-        df_sent = pd.DataFrame(
-            sentimientos,
-            columns=["candidate", "sentiment", "total"],
-        )
-
-        redes = obtener_menciones_por_red(conexion, DEBATE_ID)
-        df_redes = pd.DataFrame(
-            redes,
-            columns=["platform", "total"],
-        )
-    else:
-        df_rank = pd.DataFrame()
-        df_sent = pd.DataFrame()
-        df_redes = pd.DataFrame()
-        
-        volumen_temporal = obtener_volumen_temporal_por_candidato(
+    sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
+    redes = obtener_menciones_por_red(conexion, DEBATE_ID)
+    volumen_temporal = obtener_volumen_temporal_por_candidato(
         conexion,
         DEBATE_ID,
     )
 
+# DataFrames (fuera del with)
+if ranking:
+    df_rank = pd.DataFrame(
+        ranking,
+        columns=["candidate", "total", "pos", "neg", "balance"],
+    )
+else:
+    df_rank = pd.DataFrame()
+
+if sentimientos:
+    df_sent = pd.DataFrame(
+        sentimientos,
+        columns=["candidate", "sentiment", "total"],
+    )
+else:
+    df_sent = pd.DataFrame()
+
+if redes:
+    df_redes = pd.DataFrame(
+        redes,
+        columns=["platform", "total"],
+    )
+else:
+    df_redes = pd.DataFrame()
+
+if volumen_temporal:
     df_tiempo = pd.DataFrame(
         volumen_temporal,
         columns=["tiempo", "candidate", "total"],
     )
+else:
+    df_tiempo = pd.DataFrame()
 
 # --------------------
 # HERO – Apoyo / Rechazo neto (porcentual)

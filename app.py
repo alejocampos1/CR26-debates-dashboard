@@ -22,14 +22,14 @@ st.set_page_config(
 DEBATE_ID = "CR26_PRES_TSE_D1"
 
 # --------------------
-# Encabezado principal
+# Encabezado
 # --------------------
-st.markdown("# 🇨🇷 Elecciones 2026 - Debate Presidencial")
-st.caption("Monitoreo en tiempo real del debate presidencial")
+st.markdown("# 🇨🇷 Elecciones 2026 – Debate Presidencial")
+st.caption("Monitoreo en tiempo real del debate")
 st.markdown("---")
 
 # --------------------
-# Conexión y carga de datos
+# Carga de datos
 # --------------------
 with obtener_conexion(
     cadena_conexion=CADENA_CONEXION_POSTGRES,
@@ -38,10 +38,6 @@ with obtener_conexion(
     ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
 
     if ranking:
-        ranking = sorted(ranking, key=lambda x: x[4], reverse=True)
-        mejor = ranking[0]
-        peor = ranking[-1]
-
         sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
         df_sent = pd.DataFrame(
             sentimientos,
@@ -53,52 +49,68 @@ with obtener_conexion(
             redes,
             columns=["platform", "total"],
         )
-
     else:
         df_sent = pd.DataFrame()
         df_redes = pd.DataFrame()
 
 # --------------------
-# HERO: Mejor / Peor sentimiento
+# HERO – Atención y Riesgo
 # --------------------
 if not ranking:
-    st.info("⏳ Aún no hay menciones suficientes. El debate comenzará pronto.")
+    st.info("⏳ Aún no hay suficientes menciones. El debate comenzará pronto.")
 else:
-    st.markdown("### 🟢 Mejor sentimiento")
-    st.metric(
-        label=mejor[0],
-        value=f"{mejor[4]:.2f}",
-        delta=f"{mejor[1]} menciones",
+    df_rank = pd.DataFrame(
+        ranking,
+        columns=["candidate", "total", "pos", "neg", "balance"],
     )
 
-    st.markdown("---")
+    mas_atencion = df_rank.sort_values("total", ascending=False).iloc[0]
+    mayor_presion = df_rank.sort_values("neg", ascending=False).iloc[0]
 
-    st.markdown("### 🔴 Peor sentimiento")
-    st.metric(
-        label=peor[0],
-        value=f"{peor[4]:.2f}",
-        delta=f"{peor[1]} menciones",
+    col1, col2 = st.columns(2)
+
+    col1.metric(
+        label="👀 Mayor atención",
+        value=mas_atencion["candidate"],
+        delta=f'{int(mas_atencion["total"])} menciones',
+    )
+
+    col2.metric(
+        label="⚠️ Mayor presión negativa",
+        value=mayor_presion["candidate"],
+        delta=f'{int(mayor_presion["neg"])} negativas',
     )
 
     st.markdown("---")
 
     # --------------------
-    # Bloques dinámicos por candidato
+    # Bloques por candidato
     # --------------------
-    st.markdown("## 📊 Candidatos")
+    st.markdown("## 🧑‍💼 Candidatos")
 
-    for candidate, total, pos, neg, balance in ranking:
+    for _, fila in df_rank.iterrows():
+        candidate = fila["candidate"]
+        total = fila["total"]
+        pos = fila["pos"]
+        neg = fila["neg"]
+
+        neutro = max(total - pos - neg, 0)
+
         with st.container():
             st.subheader(candidate)
 
             col1, col2, col3 = st.columns(3)
-            col1.metric("Menciones", total)
-            col2.metric("Positivas", pos)
-            col3.metric("Negativas", neg)
+            col1.metric("Atención", total)
+            col2.metric("Positivo", f"{(pos / total * 100):.1f}%")
+            col3.metric("Negativo", f"{(neg / total * 100):.1f}%")
 
-            progreso = min(max((balance + 1) / 2, 0), 1)
-            st.progress(progreso)
-            st.caption(f"Balance de sentimiento: {balance:.2f}")
+            # Lectura humana
+            if neg / total > 0.4:
+                st.warning("⚠️ Alta presión negativa")
+            elif pos / total > 0.4:
+                st.success("🟢 Conversación mayoritariamente favorable")
+            else:
+                st.info("🟡 Conversación mixta / indecisa")
 
             df_cand = df_sent[df_sent["candidate"] == candidate]
 
@@ -108,7 +120,7 @@ else:
                     .mark_bar()
                     .encode(
                         x=alt.X("sentiment:N", title=""),
-                        y=alt.Y("total:Q", title=""),
+                        y=alt.Y("total:Q", title="Menciones"),
                         color=alt.Color(
                             "sentiment:N",
                             scale=alt.Scale(
@@ -118,7 +130,7 @@ else:
                             legend=None,
                         ),
                     )
-                    .properties(height=180)
+                    .properties(height=160)
                 )
 
                 st.altair_chart(chart_sent, use_container_width=True)
@@ -126,37 +138,28 @@ else:
             st.markdown("---")
 
     # --------------------
-    # Ranking emocional comparativo
+    # Ranking por presión negativa
     # --------------------
-    st.markdown("## 🧠 Ranking emocional")
+    st.markdown("## ⚠️ Presión negativa comparativa")
 
-    df_rank = pd.DataFrame(
-        ranking,
-        columns=["candidate", "total", "pos", "neg", "balance"],
-    )
-
-    chart_rank = (
+    chart_riesgo = (
         alt.Chart(df_rank)
         .mark_bar()
         .encode(
             y=alt.Y("candidate:N", sort="-x", title=""),
-            x=alt.X("balance:Q", title="Balance de sentimiento"),
-            color=alt.condition(
-                alt.datum.balance > 0,
-                alt.value("#2ecc71"),
-                alt.value("#e74c3c"),
-            ),
-            tooltip=["candidate", "balance", "total"],
+            x=alt.X("neg:Q", title="Menciones negativas"),
+            color=alt.value("#e74c3c"),
+            tooltip=["candidate", "neg", "total"],
         )
         .properties(height=30 * len(df_rank))
     )
 
-    st.altair_chart(chart_rank, use_container_width=True)
+    st.altair_chart(chart_riesgo, use_container_width=True)
 
     # --------------------
-    # Distribución por red social
+    # Distribución por red
     # --------------------
-    st.markdown("## 🌐 Dónde ocurre el debate")
+    st.markdown("## 🌐 Dónde ocurre la conversación")
 
     if not df_redes.empty:
         chart_redes = (
@@ -167,7 +170,7 @@ else:
                 y=alt.Y("total:Q", title="Menciones"),
                 color=alt.value("#3498db"),
             )
-            .properties(height=250)
+            .properties(height=240)
         )
 
         st.altair_chart(chart_redes, use_container_width=True)

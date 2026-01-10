@@ -33,6 +33,37 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# Estilos del dashboard
+st.markdown(
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                     Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    }
+
+    h1, h2, h3, h4, h5 {
+        font-weight: 600;
+        letter-spacing: -0.02em;
+    }
+
+    /* Métricas */
+    div[data-testid="metric-container"] {
+        font-family: 'Inter', sans-serif;
+    }
+
+    /* Captions y texto secundario */
+    .stCaption {
+        font-size: 0.85rem;
+        color: #6c757d;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 st.set_page_config(
     page_title="🇨🇷 Elecciones 2026 - Debate Presidencial",

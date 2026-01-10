@@ -22,6 +22,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# --------------------
+# Auto-refresh (cada 60 segundos)
+# --------------------
+st.autorefresh(interval=60 * 1000, key="auto_refresh")
+
 DEBATE_ID = "CR26_PRES_TSE_D1"
 
 MAPEO_SENTIMIENTO_UI = {

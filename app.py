@@ -427,17 +427,11 @@ with col_footer_text:
     )
 
 with col_footer_logo:
-    if st.button(" ", key="logo_link"):
-        st.markdown(
-            """
-            <script>
-                window.open("https://www.facebook.com/crsoundcheck", "_blank");
-            </script>
-            """,
-            unsafe_allow_html=True,
-        )
-
     st.image(
         "assets/logo.png",
         width=120,
+    )
+    st.caption(
+        "[CR Soundcheck](https://www.facebook.com/crsoundcheck)",
+        unsafe_allow_html=True,
     )

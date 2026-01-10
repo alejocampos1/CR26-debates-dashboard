@@ -315,7 +315,6 @@ if not df_redes.empty:
         },
     )
 
-    fig_redes.update_traces(marker_color="#3498db")
     fig_redes.update_layout(
         height=300,
         margin=dict(t=20, b=40, l=20, r=20),

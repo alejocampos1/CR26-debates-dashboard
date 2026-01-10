@@ -290,7 +290,7 @@ if not df_tiempo.empty:
         x="tiempo",
         y="total",
         color="candidate",
-        color_discrete_sequence=PALETA_NEUTRA
+        color_discrete_sequence=PALETA_NEUTRA,
         labels={
             "tiempo": "Tiempo",
             "total": "Menciones",

@@ -189,7 +189,7 @@ with col1:
     st.markdown(f"### {mas_apoyo['candidate']}")
     st.markdown(
         f"<span style='font-size:26px; font-weight:600;'>"
-        f"{mas_apoyo['apoyo_neto_pct']:+.1f}%"
+        f"{mas_apoyo['apoyo_neto_pct']:+.1f}%*"
         f"</span>",
         unsafe_allow_html=True,
     )
@@ -207,13 +207,13 @@ with col2:
     st.markdown(f"### {mas_rechazo['candidate']}")
     st.markdown(
         f"<span style='font-size:26px; font-weight:600;'>"
-        f"{mas_rechazo['apoyo_neto_pct']:+.1f}%"
+        f"{mas_rechazo['apoyo_neto_pct']:+.1f}%*"
         f"</span>",
         unsafe_allow_html=True,
     )
 
 st.caption(
-    "Apoyo neto = % positivas − % negativas (solo candidaturas con volumen relevante)"
+    "*Apoyo neto = % positivas − % negativas"
 )
 
 st.markdown("---")

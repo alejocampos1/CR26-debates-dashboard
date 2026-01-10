@@ -400,7 +400,7 @@ if not df_redes.empty:
     
 st.markdown("---")
 
-col_footer_text, col_footer_logo = st.columns([4, 1])
+col_footer_text, col_footer_logo = st.columns([5, 2])
 
 with col_footer_text:
     st.markdown(
@@ -427,7 +427,8 @@ with col_footer_text:
     )
 
 with col_footer_logo:
+    st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
     st.image(
         "assets/logo.png",
-        width=1200,
+        use_container_width=True,
     )

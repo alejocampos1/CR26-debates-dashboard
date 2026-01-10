@@ -119,17 +119,17 @@ for _, fila in df_rank.iterrows():
         st.subheader(candidate)
 
         col1, col2, col3 = st.columns(3)
-        col1.metric("Atención", int(total))
+        col1.metric("Atención", f"{int(total)} menciones")
         col2.metric("Positivo", f"{(pos/total)*100:.1f}%")
         col3.metric("Negativo", f"{(neg/total)*100:.1f}%")
 
         if neg / total > 0.4:
-            st.error("⚠️ Alta presión negativa")
+            st.error("⚠️ - Alta presión negativa")
         elif pos / total > 0.4:
-            st.success("🟢 Conversación mayoritariamente favorable")
+            st.success("🟢 - Conversación mayoritariamente favorable")
         else:
-            st.info("🟡 Conversación mixta / indecisa")
-
+            st.info("🟡 - Conversación mixta / indecisa")
+            
         df_cand = df_sent[df_sent["candidate"] == candidate].copy()
 
         df_cand["sentimiento_es"] = (
@@ -149,6 +149,9 @@ for _, fila in df_rank.iterrows():
                 x="sentimiento_es",
                 y="total",
                 color="sentimiento_es",
+                category_orders={
+                    "sentimiento_es": ORDEN_SENTIMIENTO
+                },
                 color_discrete_map={
                     "Positivo": "#2ecc71",
                     "Neutro": "#bdc3c7",

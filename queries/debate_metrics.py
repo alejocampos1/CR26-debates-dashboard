@@ -7,12 +7,8 @@ def obtener_ranking_sentimiento(conexion, debate_id: str):
             SUM(CASE WHEN sentiment_label = 'positive' THEN 1 ELSE 0 END) AS positivas,
             SUM(CASE WHEN sentiment_label = 'negative' THEN 1 ELSE 0 END) AS negativas
         FROM ocdul_debates.mentions_raw
-        WHERE
-            debate_id = %(debate_id)s
-            AND is_valid = TRUE
-            AND (
-                original_timestamp AT TIME ZONE 'America/Costa_Rica'
-            ) >= TIMESTAMP '2026-01-09 17:00:00'
+        WHERE debate_id = %(debate_id)s
+          AND is_valid = TRUE
         GROUP BY candidate
     ),
     filtrado AS (
@@ -36,12 +32,8 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str):
         sentiment_label,
         COUNT(*) AS total
     FROM ocdul_debates.mentions_raw
-    WHERE
-        debate_id = %(debate_id)s
-        AND is_valid = TRUE
-        AND (
-            original_timestamp AT TIME ZONE 'America/Costa_Rica'
-        ) >= TIMESTAMP '2026-01-09 17:00:00'
+    WHERE debate_id = %(debate_id)s
+      AND is_valid = TRUE
     GROUP BY candidate, sentiment_label;
     """
     with conexion.cursor() as cur:
@@ -54,19 +46,15 @@ def obtener_menciones_por_red(conexion, debate_id: str):
         platform,
         COUNT(*) AS total
     FROM ocdul_debates.mentions_raw
-    WHERE
-        debate_id = %(debate_id)s
-        AND is_valid = TRUE
-        AND (
-            original_timestamp AT TIME ZONE 'America/Costa_Rica'
-        ) >= TIMESTAMP '2026-01-09 18:00:00'
+    WHERE debate_id = %(debate_id)s
+      AND is_valid = TRUE
     GROUP BY platform
     ORDER BY total DESC;
     """
     with conexion.cursor() as cur:
         cur.execute(query, {"debate_id": debate_id})
         return cur.fetchall()
-
+    
 def obtener_volumen_temporal_por_candidato(
     conexion,
     debate_id: str,
@@ -91,9 +79,6 @@ def obtener_volumen_temporal_por_candidato(
             WHERE
                 debate_id = %s
                 AND is_valid = TRUE
-                AND (
-                    original_timestamp AT TIME ZONE 'America/Costa_Rica'
-                ) >= TIMESTAMP '2026-01-09 17:00:00'
             GROUP BY 1, 2
             ORDER BY 1 ASC
             """,

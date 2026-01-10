@@ -119,7 +119,7 @@ for _, fila in df_rank.iterrows():
         st.subheader(candidate)
 
         st.markdown(
-            f"**{int(total):,} menciones**",
+            f" ## {int(total):,} menciones",
         )
 
         col1, col2 = st.columns(2)

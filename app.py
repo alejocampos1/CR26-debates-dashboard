@@ -159,8 +159,8 @@ MAPA_PARTIDOS = {
 # Encabezado
 # --------------------
 st.markdown("# 🇨🇷 Elecciones 2026 – Debate Presidencial")
-st.caption("## Monitoreo en tiempo real del debate")
-st.caption("### Powered by [SoundCheck CR](https://www.facebook.com/crsoundcheck)")
+st.caption("#### Monitoreo en tiempo real del debate")
+st.caption("##### Una iniciativa de: [SoundCheck CR](https://www.facebook.com/crsoundcheck)")
 st.markdown("---")
 
 # --------------------

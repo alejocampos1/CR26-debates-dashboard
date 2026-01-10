@@ -10,9 +10,7 @@ def obtener_ranking_sentimiento(conexion, debate_id: str):
         WHERE
             debate_id = %(debate_id)s
             AND is_valid = TRUE
-            AND (
-                original_timestamp AT TIME ZONE 'America/Costa_Rica'
-            ) >= TIMESTAMP '2026-01-09 17:00:00'
+            AND original_timestamp >= TIMESTAMP '2026-01-09 17:00:00'
         GROUP BY candidate
     ),
     filtrado AS (
@@ -39,9 +37,7 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str):
     WHERE
         debate_id = %(debate_id)s
         AND is_valid = TRUE
-        AND (
-            original_timestamp AT TIME ZONE 'America/Costa_Rica'
-        ) >= TIMESTAMP '2026-01-09 17:00:00'
+        AND original_timestamp >= TIMESTAMP '2026-01-09 17:00:00'
     GROUP BY candidate, sentiment_label;
     """
     with conexion.cursor() as cur:
@@ -57,9 +53,7 @@ def obtener_menciones_por_red(conexion, debate_id: str):
     WHERE
         debate_id = %(debate_id)s
         AND is_valid = TRUE
-        AND (
-            original_timestamp AT TIME ZONE 'America/Costa_Rica'
-        ) >= TIMESTAMP '2026-01-09 18:00:00'
+        AND original_timestamp >= TIMESTAMP '2026-01-09 17:00:00'
     GROUP BY platform
     ORDER BY total DESC;
     """
@@ -76,14 +70,11 @@ def obtener_volumen_temporal_por_candidato(
         cursor.execute(
             """
             SELECT
-                (
-                    to_timestamp(
-                        floor(
-                            extract(epoch from original_timestamp AT TIME ZONE 'America/Costa_Rica')
-                            / (%s * 60)
-                        ) * (%s * 60)
-                    )
-                    AT TIME ZONE 'America/Costa_Rica'
+                to_timestamp(
+                    floor(
+                        extract(epoch from original_timestamp)
+                        / (%s * 60)
+                    ) * (%s * 60)
                 ) AS tiempo,
                 candidate,
                 COUNT(*) AS total
@@ -91,9 +82,7 @@ def obtener_volumen_temporal_por_candidato(
             WHERE
                 debate_id = %s
                 AND is_valid = TRUE
-                AND (
-                    original_timestamp AT TIME ZONE 'America/Costa_Rica'
-                ) >= TIMESTAMP '2026-01-09 17:00:00'
+                AND original_timestamp >= TIMESTAMP '2026-01-09 17:00:00'
             GROUP BY 1, 2
             ORDER BY 1 ASC
             """,

@@ -12,16 +12,16 @@ def obtener_ranking_sentimiento(conexion, debate_id: str):
             AND is_valid = TRUE
             AND original_timestamp >= TIMESTAMP '2026-01-09 17:00:00'
         GROUP BY candidate
-    ),
-    filtrado AS (
-        SELECT *,
-               (positivas - negativas)::float / total_menciones AS balance_sentimiento
-        FROM base
-        WHERE total_menciones >= 50
     )
-    SELECT *
-    FROM filtrado
-    ORDER BY balance_sentimiento DESC;
+    SELECT
+        candidate,
+        total_menciones,
+        positivas,
+        negativas,
+        (positivas - negativas)::float / NULLIF(total_menciones, 0) AS balance_sentimiento
+    FROM base
+    ORDER BY total_menciones DESC;
+
     """
     with conexion.cursor() as cur:
         cur.execute(query, {"debate_id": debate_id})

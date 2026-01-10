@@ -10,6 +10,8 @@ from queries.debate_metrics import (
     obtener_menciones_por_red,
 )
 
+MIN_MENCIONES_HERO = 50
+
 # --------------------
 # Configuración general
 # --------------------
@@ -84,15 +86,21 @@ if df_rank.empty:
     st.info("⏳ Aún no hay suficientes menciones. El debate comenzará pronto.")
     st.stop()
 
-df_rank["pct_pos"] = df_rank["pos"] / df_rank["total"]
-df_rank["pct_neg"] = df_rank["neg"] / df_rank["total"]
+df_hero = df_rank[df_rank["total"] >= MIN_MENCIONES_HERO].copy()
 
-mejor_positivo = df_rank.sort_values(
+if df_hero.empty:
+    st.info("⏳ Aún no hay volumen suficiente para destacar apoyos o rechazos.")
+    st.stop()
+
+df_hero["pct_pos"] = df_hero["pos"] / df_hero["total"]
+df_hero["pct_neg"] = df_hero["neg"] / df_hero["total"]
+
+mejor_positivo = df_hero.sort_values(
     ["pct_pos", "total"],
     ascending=[False, False],
 ).iloc[0]
 
-peor_negativo = df_rank.sort_values(
+peor_negativo = df_hero.sort_values(
     ["pct_neg", "total"],
     ascending=[False, False],
 ).iloc[0]

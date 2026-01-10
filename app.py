@@ -418,7 +418,7 @@ with col_footer_text:
         Los resultados no constituyen una predicción electoral y están sujetos a sesgos propios de cada
         plataforma y de la composición demográfica de sus usuarios.
         <br><br>
-        <strong>© 2026 – Todos los derechos reservados.</strong>
+        <strong>© 2026 – SoundCheck CR - Todos los derechos reservados.</strong>
         El contenido, visualizaciones y métricas presentadas en este tablero son propiedad intelectual
         de sus autores y no pueden ser reproducidos, redistribuidos ni utilizados sin autorización expresa.
         </div>

@@ -58,15 +58,20 @@ def obtener_menciones_por_red(conexion, debate_id: str):
 def obtener_volumen_temporal_por_candidato(
     conexion,
     debate_id: str,
-    intervalo_minutos: int = 15,  # 10 o 15
+    intervalo_minutos: int = 15,
 ):
     with conexion.cursor() as cursor:
         cursor.execute(
             """
             SELECT
-                to_timestamp(
-                    floor(extract(epoch from original_timestamp) / (%s * 60))
-                    * (%s * 60)
+                (
+                    to_timestamp(
+                        floor(
+                            extract(epoch from original_timestamp AT TIME ZONE 'America/Costa_Rica')
+                            / (%s * 60)
+                        ) * (%s * 60)
+                    )
+                    AT TIME ZONE 'America/Costa_Rica'
                 ) AS tiempo,
                 candidate,
                 COUNT(*) AS total

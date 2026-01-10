@@ -36,7 +36,7 @@ MAPA_IMAGENES = {
     "Boris Molina": f"{RUTA_IMAGENES}/Boris_Molina.png",
     "Fernando Zamora": f"{RUTA_IMAGENES}/Fernando_Zamora.png",
     "Walter Hernandez": f"{RUTA_IMAGENES}/Walter_Hernandez.png",
-    "Luz Mary Alpizar": f"{RUTA_IMAGENES}/Luz_Mary_Alpizar.png",
+    "Luz Mary Alpízar": f"{RUTA_IMAGENES}/Luz_Mary_Alpizar.png",
 }
 
 # --------------------

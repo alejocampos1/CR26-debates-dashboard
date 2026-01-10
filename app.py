@@ -64,21 +64,31 @@ else:
         columns=["candidate", "total", "pos", "neg", "balance"],
     )
 
-    mas_atencion = df_rank.sort_values("total", ascending=False).iloc[0]
-    mayor_presion = df_rank.sort_values("neg", ascending=False).iloc[0]
+    df_rank["pct_pos"] = df_rank["pos"] / df_rank["total"]
+    df_rank["pct_neg"] = df_rank["neg"] / df_rank["total"]
+
+    mejor_positivo = df_rank.sort_values(
+        ["pct_pos", "total"],
+        ascending=[False, False],
+    ).iloc[0]
+
+    peor_negativo = df_rank.sort_values(
+        ["pct_neg", "total"],
+        ascending=[False, False],
+    ).iloc[0]
 
     col1, col2 = st.columns(2)
 
     col1.metric(
-        label="👀 Mayor atención",
-        value=mas_atencion["candidate"],
-        delta=f'{int(mas_atencion["total"])} menciones',
+        label="🟢 Mejor imagen positiva",
+        value=mejor_positivo["candidate"],
+        delta=f'{mejor_positivo["pct_pos"]*100:.1f}% positivas',
     )
 
     col2.metric(
-        label="⚠️ Mayor presión negativa",
-        value=mayor_presion["candidate"],
-        delta=f'{int(mayor_presion["neg"])} negativas',
+        label="🔴 Mayor rechazo",
+        value=peor_negativo["candidate"],
+        delta=f'{peor_negativo["pct_neg"]*100:.1f}% negativas',
     )
 
     st.markdown("---")
@@ -119,7 +129,7 @@ else:
                     alt.Chart(df_cand)
                     .mark_bar()
                     .encode(
-                        x=alt.X("sentiment:N", title=""),
+                        x=alt.X("sentiment:N", title="Sentimiento"),
                         y=alt.Y("total:Q", title="Menciones"),
                         color=alt.Color(
                             "sentiment:N",
@@ -129,6 +139,7 @@ else:
                             ),
                             legend=None,
                         ),
+                        tooltip=["sentiment", "total"],
                     )
                     .properties(height=160)
                 )
@@ -146,9 +157,8 @@ else:
         alt.Chart(df_rank)
         .mark_bar()
         .encode(
-            y=alt.Y("candidate:N", sort="-x", title=""),
+            y=alt.Y("candidate:N", sort="-x", title="Candidato"),
             x=alt.X("neg:Q", title="Menciones negativas"),
-            color=alt.value("#e74c3c"),
             tooltip=["candidate", "neg", "total"],
         )
         .properties(height=30 * len(df_rank))

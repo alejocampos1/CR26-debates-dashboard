@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+from streamlit_autorefresh import st_autorefresh
 from config.settings import CADENA_CONEXION_POSTGRES
 from db.connection import obtener_conexion
 from queries.debate_metrics import (

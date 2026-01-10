@@ -20,6 +20,13 @@ from queries.debate_metrics import (
 
 MIN_MENCIONES_HERO = 50
 
+# Inicio de la aplicación
+st.set_page_config(
+    page_title="🇨🇷 Elecciones 2026 - Debate Presidencial",
+    layout="centered",
+    initial_sidebar_state="collapsed",
+)
+
 st.markdown(
     """
     <style>
@@ -62,13 +69,6 @@ st.markdown(
     </style>
     """,
     unsafe_allow_html=True,
-)
-
-
-st.set_page_config(
-    page_title="🇨🇷 Elecciones 2026 - Debate Presidencial",
-    layout="centered",
-    initial_sidebar_state="collapsed",
 )
 
 ORDEN_SENTIMIENTO = ["Positivo", "Neutro", "Negativo"]

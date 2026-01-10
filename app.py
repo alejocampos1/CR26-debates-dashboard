@@ -12,49 +12,35 @@ from queries.debate_metrics import (
     obtener_volumen_temporal_por_candidato
 )
 
-MIN_MENCIONES_HERO = 50
-
 # --------------------
 # Configuración general
 # --------------------
+
+# Configuración general
+
+MIN_MENCIONES_HERO = 50
+
+st.markdown(
+    """
+    <style>
+    * {
+        user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+
 st.set_page_config(
     page_title="🇨🇷 Elecciones 2026 - Debate Presidencial",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
 
-# --------------------
-# Auto-refresh (cada 60 segundos)
-# --------------------
-st_autorefresh(interval=60 * 1000, key="auto_refresh")
-
-DEBATE_ID = "CR26_PRES_TSE_D1"
-
-MAPEO_SENTIMIENTO_UI = {
-    "positive": "Positivo",
-    "neutral": "Neutro",
-    "negative": "Negativo",
-}
-
 ORDEN_SENTIMIENTO = ["Positivo", "Neutro", "Negativo"]
-
-RUTA_IMAGENES = "assets/candidatos"
-
-MAPA_IMAGENES = {
-    "Natalia Díaz": f"{RUTA_IMAGENES}/Natalia_Diaz.png",
-    "Boris Molina": f"{RUTA_IMAGENES}/Boris_Molina.png",
-    "Fernando Zamora": f"{RUTA_IMAGENES}/Fernando_Zamora.png",
-    "Walter Hernandez": f"{RUTA_IMAGENES}/Walter_Hernandez.png",
-    "Luz Mary Alpízar": f"{RUTA_IMAGENES}/Luz_Mary_Alpizar.png",
-}
-
-MAPA_PARTIDOS = {
-    "Natalia Díaz": "Partido Unidos Podemos",
-    "Luz Mary Alpízar": "Partido Progreso Social Democrático",
-    "Boris Molina": "Partido Unión Costarricense Democrática",
-    "Fernando Zamora": "Partido Nueva Generación",
-    "Walter Hernandez": "Partido Justicia Social Costarricense",
-}
 
 MAPA_REDES_UI = {
     "x": "X (Twitter)",
@@ -79,6 +65,38 @@ PALETA_NEUTRA = [
     "#e377c2",  
     "#7f7f7f",  
 ]
+
+# Auto-refresh (cada 60 segundos)
+st_autorefresh(interval=60 * 1000, key="auto_refresh")
+
+
+# Contexto del debate
+DEBATE_ID = "CR26_PRES_TSE_D1"
+
+MAPEO_SENTIMIENTO_UI = {
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
+}
+
+
+RUTA_IMAGENES = "assets/candidatos"
+
+MAPA_IMAGENES = {
+    "Natalia Díaz": f"{RUTA_IMAGENES}/Natalia_Diaz.png",
+    "Boris Molina": f"{RUTA_IMAGENES}/Boris_Molina.png",
+    "Fernando Zamora": f"{RUTA_IMAGENES}/Fernando_Zamora.png",
+    "Walter Hernandez": f"{RUTA_IMAGENES}/Walter_Hernandez.png",
+    "Luz Mary Alpízar": f"{RUTA_IMAGENES}/Luz_Mary_Alpizar.png",
+}
+
+MAPA_PARTIDOS = {
+    "Natalia Díaz": "Partido Unidos Podemos",
+    "Luz Mary Alpízar": "Partido Progreso Social Democrático",
+    "Boris Molina": "Partido Unión Costarricense Democrática",
+    "Fernando Zamora": "Partido Nueva Generación",
+    "Walter Hernandez": "Partido Justicia Social Costarricense",
+}
 
 # --------------------
 # Encabezado

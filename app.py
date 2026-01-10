@@ -429,5 +429,5 @@ with col_footer_text:
 with col_footer_logo:
     st.image(
         "assets/logo.png",
-        width=250,
+        width=1200,
     )

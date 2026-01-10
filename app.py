@@ -21,6 +21,14 @@ st.set_page_config(
 
 DEBATE_ID = "CR26_PRES_TSE_D1"
 
+MAPEO_SENTIMIENTO_UI = {
+    "positive": "Positivo",
+    "neutral": "Neutro",
+    "negative": "Negativo",
+}
+
+ORDEN_SENTIMIENTO = ["Positivo", "Neutro", "Negativo"]
+
 # --------------------
 # Encabezado
 # --------------------
@@ -122,7 +130,18 @@ for _, fila in df_rank.iterrows():
         else:
             st.info("🟡 Conversación mixta / indecisa")
 
-        df_cand = df_sent[df_sent["candidate"] == candidate]
+        df_cand = df_sent[df_sent["candidate"] == candidate].copy()
+
+        df_cand["sentimiento_es"] = (
+            df_cand["sentiment"]
+            .map(MAPEO_SENTIMIENTO_UI)
+        )
+
+        df_cand["sentimiento_es"] = pd.Categorical(
+            df_cand["sentimiento_es"],
+            categories=ORDEN_SENTIMIENTO,
+            ordered=True,
+        )
 
         if not df_cand.empty:
             fig_sent = px.bar(

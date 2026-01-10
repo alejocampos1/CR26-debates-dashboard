@@ -255,7 +255,8 @@ st.markdown("---")
 # Bloques por candidato
 # --------------------
 st.markdown("## Candidaturas")
-st.markdown("### Evolución de la conversación digital por candidato")
+st.markdown("#### Evolución de la conversación digital por candidato")
+st.markdown("---")
 
 for _, fila in df_rank.iterrows():
     candidate = fila["candidate"]
@@ -343,7 +344,7 @@ for _, fila in df_rank.iterrows():
 # Evolución del debate en el tiempo
 # --------------------        
 st.markdown("## Evolución del debate en el tiempo")
-st.markdown("### Cantidad de menciones por candidato durante el debate")
+st.markdown("#### Cantidad de menciones por candidato durante el debate")
 
 if not df_tiempo.empty:
     fig_tiempo = px.line(
@@ -373,7 +374,7 @@ else:
 # Distribución por red social
 # --------------------
 st.markdown("## Dónde ocurre la conversación")
-st.markdown("### Distribución de la conversación digital por red social (Cantidad de menciones)")
+st.markdown("#### Distribución de la conversación digital por red social (Cantidad de menciones)")
 
 if not df_redes.empty:
     fig_redes = px.bar(

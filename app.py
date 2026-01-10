@@ -223,7 +223,7 @@ with col1:
 
     st.markdown(f"### {mas_apoyo['candidate']}")
     st.markdown(
-        badge_apoyo(f"{mas_apoyo['apoyo_neto_pct']}%"),
+        badge_apoyo(mas_apoyo["apoyo_neto_pct"]),
         unsafe_allow_html=True,
     )
 
@@ -239,12 +239,11 @@ with col2:
 
     st.markdown(f"### {mas_rechazo['candidate']}")
     st.markdown(
-        badge_apoyo(f"{mas_rechazo['apoyo_neto_pct']}%"),
+        badge_apoyo(mas_rechazo["apoyo_neto_pct"]),
         unsafe_allow_html=True,
     )
 
 st.markdown(" ")
-
 st.caption(
     "*Apoyo neto = % positivas − % negativas"
 )

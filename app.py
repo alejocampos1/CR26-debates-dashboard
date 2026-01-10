@@ -29,6 +29,16 @@ MAPEO_SENTIMIENTO_UI = {
 
 ORDEN_SENTIMIENTO = ["Positivo", "Neutro", "Negativo"]
 
+RUTA_IMAGENES = "assets/candidatos"
+
+MAPA_IMAGENES = {
+    "Natalia Diaz": f"{RUTA_IMAGENES}/Natalia_Diaz.png",
+    "Boris Molina": f"{RUTA_IMAGENES}/Boris_Molina.png",
+    "Fernando Zamora": f"{RUTA_IMAGENES}/Fernando_Zamora.png",
+    "Walter Hernandez": f"{RUTA_IMAGENES}/Walter_Hernandez.png",
+    "Luz Mary Alpizar": f"{RUTA_IMAGENES}/Luz_Mary_Alpizar.png",
+}
+
 # --------------------
 # Encabezado
 # --------------------
@@ -116,10 +126,20 @@ for _, fila in df_rank.iterrows():
     neu = max(total - pos - neg, 0)
 
     with st.container():
-        st.subheader(candidate)
+        col_img, col_title = st.columns([1, 4])
+
+        with col_img:
+            if candidate in MAPA_IMAGENES:
+                st.image(
+                    MAPA_IMAGENES[candidate],
+                    use_container_width=True,
+                )
+
+        with col_title:
+            st.subheader(candidate)
 
         st.markdown(
-            f" ## {int(total):,} menciones",
+            f" ### {int(total):,} menciones",
         )
 
         col1, col2 = st.columns(2)

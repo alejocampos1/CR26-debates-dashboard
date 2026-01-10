@@ -26,7 +26,7 @@ st.set_page_config(
 # --------------------
 # Auto-refresh (cada 60 segundos)
 # --------------------
-st.autorefresh(interval=60 * 1000, key="auto_refresh")
+st_autorefresh(interval=60 * 1000, key="auto_refresh")
 
 DEBATE_ID = "CR26_PRES_TSE_D1"
 

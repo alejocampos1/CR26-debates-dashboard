@@ -56,6 +56,20 @@ MAPA_PARTIDOS = {
     "Walter Hernandez": "Partido Justicia Social Costarricense",
 }
 
+MAPA_REDES_UI = {
+    "x": "X (Twitter)",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
+}
+
+MAPA_COLORES_REDES = {
+    "X (Twitter)": "#19FFE8",
+    "Facebook": "#1877F2",
+    "Instagram": "#AF30E1",
+    "TikTok": "#D12A2A",
+}
+
 # --------------------
 # Encabezado
 # --------------------
@@ -79,7 +93,7 @@ with obtener_conexion(
         intervalo_minutos=15,
     )
 
-# DataFrames (fuera del with)
+# DataFrames
 if ranking:
     df_rank = pd.DataFrame(
         ranking,
@@ -103,6 +117,14 @@ if redes:
     )
 else:
     df_redes = pd.DataFrame()
+
+if not df_redes.empty:
+    df_redes["platform_ui"] = (
+        df_redes["platform"]
+        .str.lower()
+        .map(MAPA_REDES_UI)
+        .fillna(df_redes["platform"].str.capitalize())
+    )
 
 if volumen_temporal:
     df_tiempo = pd.DataFrame(
@@ -283,10 +305,12 @@ st.markdown("## 🌐 Dónde ocurre la conversación")
 if not df_redes.empty:
     fig_redes = px.bar(
         df_redes,
-        x="platform",
+        x="platform_ui",
         y="total",
+        color="platform_ui",
+        color_discrete_map=MAPA_COLORES_REDES,
         labels={
-            "platform": "Red social",
+            "platform_ui": "Red social",
             "total": "Menciones",
         },
     )

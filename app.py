@@ -119,7 +119,8 @@ for _, fila in df_rank.iterrows():
         st.subheader(candidate)
 
         col1, col2, col3 = st.columns(3)
-        col1.metric("Atención", f"{int(total)} menciones")
+        col1.metric("Atención", f"{int(total)}")
+        col1.caption("menciones")
         col2.metric("Positivo", f"{(pos/total)*100:.1f}%")
         col3.metric("Negativo", f"{(neg/total)*100:.1f}%")
 
@@ -172,30 +173,6 @@ for _, fila in df_rank.iterrows():
             st.plotly_chart(fig_sent, use_container_width=True)
 
         st.markdown("---")
-
-# --------------------
-# Ranking por presión negativa
-# --------------------
-st.markdown("## ⚠️ Presión negativa comparativa")
-
-fig_riesgo = px.bar(
-    df_rank.sort_values("neg", ascending=True),
-    x="neg",
-    y="candidate",
-    orientation="h",
-    labels={
-        "neg": "Menciones negativas",
-        "candidate": "Candidato",
-    },
-)
-
-fig_riesgo.update_traces(marker_color="#e74c3c")
-fig_riesgo.update_layout(
-    height=60 * len(df_rank),
-    margin=dict(t=20, b=20, l=40, r=20),
-)
-
-st.plotly_chart(fig_riesgo, use_container_width=True)
 
 # --------------------
 # Distribución por red social

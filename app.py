@@ -148,7 +148,7 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_TSE_D2"
+DEBATE_ID = "CR26_PRES_TSE_D3"
 
 MAPEO_SENTIMIENTO_UI = {
     "positive": "Positivo",
@@ -171,6 +171,12 @@ MAPA_IMAGENES = {
     "Marco Rodríguez": f"{RUTA_IMAGENES}/Marco_Rodriguez.png",
     "David Hernández": f"{RUTA_IMAGENES}/David_Hernandez.png",
     "Ana Virginia Calzada": f"{RUTA_IMAGENES}/Ana_Virginia_Calzada.png",
+    
+    "Ronny Castillo": f"{RUTA_IMAGENES}/Ronny_Castillo.png",
+    "Eliécer Feinzaig": f"{RUTA_IMAGENES}/Eliecer_Feinzaig.png",
+    "Laura Fernández": f"{RUTA_IMAGENES}/Laura_Fernandez.png",
+    "José Aguilar Berrocal": f"{RUTA_IMAGENES}/Jose_Aguilar_Berrocal.png",
+    "Claudio Alpízar": f"{RUTA_IMAGENES}/Claudio_Alpizar.png",
 }
 
 
@@ -186,6 +192,12 @@ MAPA_PARTIDOS = {
     "Marco Rodríguez": "Partido Esperanza y Libertad",
     "David Hernández": "Partido de los Trabajadores",
     "Ana Virginia Calzada": "Partido Centro Democrático y Social",
+    
+    "Ronny Castillo": "Partido Aquí Costa Rica Manda",
+    "Eliécer Feinzaig": "Partido Liberal Progresista",
+    "Laura Fernández": "Partido Pueblo Soberano",
+    "José Aguilar Berrocal": "Partido Avanza",
+    "Claudio Alpízar": "Partido Esperanza Nacional",
 }
 
 # --------------------

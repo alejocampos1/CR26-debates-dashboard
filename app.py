@@ -128,7 +128,7 @@ st_autorefresh(interval=60 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_TSE_D1"
+DEBATE_ID = "CR26_PRES_TSE_D2"
 
 MAPEO_SENTIMIENTO_UI = {
     "positive": "Positivo",

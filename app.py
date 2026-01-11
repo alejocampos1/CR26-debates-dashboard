@@ -208,7 +208,8 @@ st.caption("### Monitoreo de la conversación digital en tiempo real")
 st.caption("##### Una iniciativa de: [SoundCheck CR](https://www.facebook.com/crsoundcheck)")
 st.markdown("---")
 
-st.markdown("## Debate Presidencial - Tribunal Supremo de Elecciones - Día 3")
+st.markdown("## Debate Presidencial")
+st.markdown("### Tribunal Supremo de Elecciones - Día 3")
 st.markdown("---")
 
 # --------------------

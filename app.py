@@ -145,7 +145,14 @@ MAPA_IMAGENES = {
     "Fernando Zamora": f"{RUTA_IMAGENES}/Fernando_Zamora.png",
     "Walter Hernandez": f"{RUTA_IMAGENES}/Walter_Hernandez.png",
     "Luz Mary Alpízar": f"{RUTA_IMAGENES}/Luz_Mary_Alpizar.png",
+
+    "Claudia Dobles": f"{RUTA_IMAGENES}/Claudia_Dobles.png",
+    "Fabricio Alvarado": f"{RUTA_IMAGENES}/Fabricio_Alvarado.png",
+    "Marco Rodríguez": f"{RUTA_IMAGENES}/Marco_Rodriguez.png",
+    "David Hernández": f"{RUTA_IMAGENES}/David_Hernandez.png",
+    "Ana Virginia Calzada": f"{RUTA_IMAGENES}/Ana_Virginia_Calzada.png",
 }
+
 
 MAPA_PARTIDOS = {
     "Natalia Díaz": "Partido Unidos Podemos",
@@ -153,6 +160,12 @@ MAPA_PARTIDOS = {
     "Boris Molina": "Partido Unión Costarricense Democrática",
     "Fernando Zamora": "Partido Nueva Generación",
     "Walter Hernandez": "Partido Justicia Social Costarricense",
+
+    "Claudia Dobles": "Coalición Agenda Ciudadana / Partido Acción Ciudadana (PAC)",
+    "Fabricio Alvarado": "Partido Nueva República",
+    "Marco Rodríguez": "Partido Esperanza y Libertad",
+    "David Hernández": "Partido de los Trabajadores",
+    "Ana Virginia Calzada": "Partido Centro Democrático y Social",
 }
 
 # --------------------

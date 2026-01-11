@@ -144,7 +144,7 @@ def badge_apoyo(valor):
     """
 
 # Auto-refresh (cada 60 segundos)
-st_autorefresh(interval=60 * 1000, key="auto_refresh")
+st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
@@ -314,6 +314,11 @@ with col2:
             badge_apoyo(mas_rechazo["apoyo_neto_pct"]),
             unsafe_allow_html=True,
         )
+        
+st.markdown(" ")
+st.caption(
+    "*Apoyo neto = % positivas − % negativas"
+)
 
 
 st.markdown("---")

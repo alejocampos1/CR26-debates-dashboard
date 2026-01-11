@@ -502,6 +502,7 @@ st.plotly_chart(fig_redes, use_container_width=True)
     
 st.markdown("---")
 
+
 col_footer_text, col_footer_logo = st.columns([5, 2])
 
 with col_footer_text:

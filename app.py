@@ -16,6 +16,11 @@ from queries.debate_metrics import (
 # Configuración general
 # --------------------
 
+# --------------------
+# KILL SWITCH DEL DASHBOARD
+# --------------------
+DASHBOARD_ACTIVO = True  # ← cambiar a False para apagar todo
+
 # Configuración general
 
 MIN_MENCIONES_HERO = 50
@@ -26,6 +31,21 @@ st.set_page_config(
     layout="centered",
     initial_sidebar_state="collapsed",
 )
+
+if not DASHBOARD_ACTIVO:
+    st.markdown(
+        """
+        ## 🛠️ Tablero no disponible
+
+        Este tablero se encuentra temporalmente fuera de servicio
+        por validación de datos o mantenimiento técnico.
+
+        Gracias por su comprensión.
+        
+        Visítenos en Facebook: [SoundCheck CR](https://www.facebook.com/crsoundcheck)
+        """
+    )
+    st.stop()
 
 st.markdown(
     """
@@ -251,15 +271,18 @@ df_hero["apoyo_neto_pct"] = (
     (df_hero["pos"] - df_hero["neg"]) / df_hero["total"]
 ) * 100
 
-mas_apoyo = df_hero.sort_values(
+df_ordenado = df_hero.sort_values(
     ["apoyo_neto_pct", "total"],
     ascending=[False, False],
-).iloc[0]
+)
 
-mas_rechazo = df_hero.sort_values(
-    ["apoyo_neto_pct", "total"],
-    ascending=[True, False],
-).iloc[0]
+mas_apoyo = df_ordenado.iloc[0]
+
+mas_rechazo = (
+    df_ordenado.iloc[-1]
+    if len(df_ordenado) > 1
+    else None
+)
 
 col1, col2 = st.columns(2)
 
@@ -268,10 +291,7 @@ with col1:
     st.markdown("### 🟢 Mayor apoyo neto")
 
     if mas_apoyo["candidate"] in MAPA_IMAGENES:
-        st.image(
-            MAPA_IMAGENES[mas_apoyo["candidate"]],
-            width=120,
-        )
+        st.image(MAPA_IMAGENES[mas_apoyo["candidate"]], width=120)
 
     st.markdown(f"### {mas_apoyo['candidate']}")
     st.markdown(
@@ -283,22 +303,17 @@ with col1:
 with col2:
     st.markdown("### 🔴 Mayor rechazo neto")
 
-    if mas_rechazo["candidate"] in MAPA_IMAGENES:
-        st.image(
-            MAPA_IMAGENES[mas_rechazo["candidate"]],
-            width=120,
+    if mas_rechazo is None:
+        st.info("Aún no hay suficientes candidaturas para comparar rechazo.")
+    else:
+        if mas_rechazo["candidate"] in MAPA_IMAGENES:
+            st.image(MAPA_IMAGENES[mas_rechazo["candidate"]], width=120)
+
+        st.markdown(f"### {mas_rechazo['candidate']}")
+        st.markdown(
+            badge_apoyo(mas_rechazo["apoyo_neto_pct"]),
+            unsafe_allow_html=True,
         )
-
-    st.markdown(f"### {mas_rechazo['candidate']}")
-    st.markdown(
-        badge_apoyo(mas_rechazo["rechazo_neto_pct"]),
-        unsafe_allow_html=True,
-    )
-
-st.markdown(" ")
-st.caption(
-    "*Apoyo neto = % positivas − % negativas"
-)
 
 
 st.markdown("---")

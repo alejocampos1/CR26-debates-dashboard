@@ -462,25 +462,43 @@ st.markdown("---")
 st.markdown("## Dónde ocurre la conversación")
 st.markdown("#### Distribución por red social (Cantidad de menciones)")
 
-if not df_redes.empty:
-    fig_redes = px.bar(
-        df_redes,
-        x="platform_ui",
-        y="total",
-        color="platform_ui",
-        color_discrete_map=MAPA_COLORES_REDES,
-        labels={
-            "platform_ui": "Red social",
-            "total": "Menciones",
-        },
-    )
+# Universo completo de redes
+df_redes_universo = pd.DataFrame({
+    "platform": list(MAPA_REDES_UI.keys())
+})
 
-    fig_redes.update_layout(
-        height=300,
-        margin=dict(t=20, b=40, l=20, r=20),
-    )
+# Si no hay datos, df_redes puede venir vacío
+df_redes_plot = (
+    df_redes_universo
+    .merge(df_redes, on="platform", how="left")
+    .fillna({"total": 0})
+)
 
-    st.plotly_chart(fig_redes, use_container_width=True)
+df_redes_plot["total"] = df_redes_plot["total"].astype(int)
+
+df_redes_plot["platform_ui"] = (
+    df_redes_plot["platform"]
+    .map(MAPA_REDES_UI)
+)
+
+fig_redes = px.bar(
+    df_redes_plot,
+    x="platform_ui",
+    y="total",
+    color="platform_ui",
+    color_discrete_map=MAPA_COLORES_REDES,
+    labels={
+        "platform_ui": "Red social",
+        "total": "Menciones",
+    },
+)
+
+fig_redes.update_layout(
+    height=300,
+    margin=dict(t=20, b=40, l=20, r=20),
+)
+
+st.plotly_chart(fig_redes, use_container_width=True)
     
 st.markdown("---")
 

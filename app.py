@@ -23,7 +23,7 @@ DASHBOARD_ACTIVO = True  # ← cambiar a False para apagar todo
 
 # Configuración general
 
-MIN_MENCIONES_HERO = 50
+MIN_MENCIONES_HERO = 1
 
 # Inicio de la aplicación
 st.set_page_config(

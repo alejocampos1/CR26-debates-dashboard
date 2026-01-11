@@ -291,7 +291,7 @@ with col2:
 
     st.markdown(f"### {mas_rechazo['candidate']}")
     st.markdown(
-        badge_apoyo(mas_rechazo["apoyo_neto_pct"]),
+        badge_apoyo(mas_rechazo["rechazo_neto_pct"]),
         unsafe_allow_html=True,
     )
 

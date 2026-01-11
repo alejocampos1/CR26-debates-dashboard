@@ -27,7 +27,7 @@ MIN_MENCIONES_HERO = 10
 
 # Inicio de la aplicación
 st.set_page_config(
-    page_title="🇨🇷 Elecciones 2026 - Debate Presidencial",
+    page_title="🇨🇷 Elecciones 2026 - Debates Presidenciales",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
@@ -203,7 +203,7 @@ MAPA_PARTIDOS = {
 # --------------------
 # Encabezado
 # --------------------
-st.markdown("# 🇨🇷 Elecciones 2026 – Debate Presidencial")
+st.markdown("# 🇨🇷 Elecciones 2026 – Debates Presidenciales")
 st.caption("### Monitoreo de la conversación digital en tiempo real")
 st.caption("##### Una iniciativa de: [SoundCheck CR](https://www.facebook.com/crsoundcheck)")
 st.markdown("---")

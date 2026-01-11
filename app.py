@@ -181,7 +181,7 @@ MAPA_PARTIDOS = {
     "Fernando Zamora": "Partido Nueva Generación",
     "Walter Hernandez": "Partido Justicia Social Costarricense",
 
-    "Claudia Dobles": "Coalición Agenda Ciudadana / Partido Acción Ciudadana (PAC)",
+    "Claudia Dobles": "Coalición Agenda Ciudadana",
     "Fabricio Alvarado": "Partido Nueva República",
     "Marco Rodríguez": "Partido Esperanza y Libertad",
     "David Hernández": "Partido de los Trabajadores",

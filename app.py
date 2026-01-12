@@ -298,17 +298,7 @@ for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
     total = fila["total"]
 
     with col:
-        st.markdown(
-            """
-            <div style="
-                border:1px solid #e5e7eb;
-                border-radius:12px;
-                padding:16px;
-                text-align:center;
-            ">
-            """,
-            unsafe_allow_html=True,
-        )
+        st.container(border=True)
 
         if candidate in MAPA_IMAGENES:
             st.image(
@@ -326,8 +316,6 @@ for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
             "Menciones",
             f"{int(total):,}"
         )
-
-        st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("---")
 

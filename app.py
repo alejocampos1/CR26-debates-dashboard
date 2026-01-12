@@ -298,24 +298,24 @@ for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
     total = fila["total"]
 
     with col:
-        st.container(border=True)
+        with st.container(border=True):
 
-        if candidate in MAPA_IMAGENES:
-            st.image(
-                MAPA_IMAGENES[candidate],
-                width=120,
+            if candidate in MAPA_IMAGENES:
+                st.image(
+                    MAPA_IMAGENES[candidate],
+                    width=120,
+                )
+
+            st.markdown(f"### {candidate}")
+
+            partido = MAPA_PARTIDOS.get(candidate)
+            if partido:
+                st.caption(partido)
+
+            st.metric(
+                "Menciones",
+                f"{int(total):,}"
             )
-
-        st.markdown(f"### {candidate}")
-
-        partido = MAPA_PARTIDOS.get(candidate)
-        if partido:
-            st.caption(partido)
-
-        st.metric(
-            "Menciones",
-            f"{int(total):,}"
-        )
 
 st.markdown("---")
 

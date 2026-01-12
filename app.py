@@ -291,30 +291,48 @@ df_top_volumen = (
     .copy()
 )
 
+# Apoyo neto SOLO para el Top 3
+df_top_volumen["apoyo_neto_pct"] = (
+    (df_top_volumen["pos"] - df_top_volumen["neg"])
+    / df_top_volumen["total"]
+) * 100
+
 cols = st.columns(3)
 
 for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
     candidate = fila["candidate"]
     total = fila["total"]
+    apoyo_neto = fila["apoyo_neto_pct"]
 
     with col:
         with st.container(border=True):
 
+            # Imagen
             if candidate in MAPA_IMAGENES:
                 st.image(
                     MAPA_IMAGENES[candidate],
                     width=120,
                 )
 
+            # Nombre
             st.markdown(f"### {candidate}")
 
+            # Partido
             partido = MAPA_PARTIDOS.get(candidate)
             if partido:
                 st.caption(partido)
 
+            # Volumen
             st.metric(
                 "Menciones",
                 f"{int(total):,}"
+            )
+
+            # Apoyo neto (NUEVO)
+            st.markdown("**Apoyo neto**")
+            st.markdown(
+                badge_apoyo(apoyo_neto),
+                unsafe_allow_html=True
             )
 
 st.markdown("---")

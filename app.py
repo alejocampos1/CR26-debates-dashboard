@@ -340,7 +340,7 @@ for _, fila in df_top_volumen.iterrows():
     total = fila["total"]
     apoyo_neto = fila["apoyo_neto_pct"]
 
-    with st.container(border=True):
+    with st.container():
         col_img, col_info, col_vol, col_apoyo = st.columns(
             [1, 4, 2, 2]
         )

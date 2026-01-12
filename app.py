@@ -113,6 +113,13 @@ st.markdown(
         text-align: center;
     }
     
+    .top3-separator {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+        margin: 12px 0;
+        width: 100%;
+    }
+    
     </style>
     """,
     unsafe_allow_html=True,
@@ -335,7 +342,7 @@ df_top_volumen["apoyo_neto_pct"] = (
     / df_top_volumen["total"]
 ) * 100
 
-for _, fila in df_top_volumen.iterrows():
+for i, (_, fila) in enumerate(df_top_volumen.iterrows()):
     candidate = fila["candidate"]
     total = fila["total"]
     apoyo_neto = fila["apoyo_neto_pct"]
@@ -376,8 +383,12 @@ for _, fila in df_top_volumen.iterrows():
                 unsafe_allow_html=True
             )
 
-            st.markdown(" ")
-            st.markdown(" ")
+    # Línea divisoria (excepto después del último)
+    if i < len(df_top_volumen) - 1:
+        st.markdown(
+            "<hr class='top3-separator'>",
+            unsafe_allow_html=True
+        )
 
 st.markdown("---")
 

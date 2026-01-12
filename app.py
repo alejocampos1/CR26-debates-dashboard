@@ -101,8 +101,8 @@ st.markdown(
 ORDEN_SENTIMIENTO = ["Positivo", "Neutro", "Negativo"]
 
 MAPA_REDES_UI = {
-    "x": "X (Twitter)",
     "facebook": "Facebook",
+    "x": "X (Twitter)",
     "instagram": "Instagram",
     "tiktok": "TikTok",
 }

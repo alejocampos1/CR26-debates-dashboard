@@ -434,6 +434,7 @@ for _, fila in df_rank.iterrows():
 # --------------------        
 st.markdown("## Evolución del debate en el tiempo")
 st.markdown("#### Cantidad de menciones por candidato durante el debate")
+st.markdown(" ")
 
 if not df_tiempo.empty:
     fig_tiempo = px.line(
@@ -466,6 +467,7 @@ st.markdown("---")
 # --------------------
 st.markdown("## Dónde ocurre la conversación")
 st.markdown("#### Distribución por red social (Cantidad de menciones)")
+st.markdown(" ")
 
 # Universo completo de redes
 df_redes_universo = pd.DataFrame({

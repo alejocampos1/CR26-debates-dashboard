@@ -317,10 +317,10 @@ if df_rank.empty:
     st.stop()
     
 # --------------------
-# TOP 3 – MAYOR VOLUMEN DE CONVERSACIÓN
+# TOP 3 – MAYOR VOLUMEN DE CONVERSACIÓN (HORIZONTAL)
 # --------------------
 st.markdown("## Top 3 en volumen de conversación")
-st.caption("#### Candidaturas con mayor cantidad de menciones durante el debate")
+st.caption("Candidaturas con mayor cantidad de menciones durante el debate")
 st.markdown(" ")
 
 df_top_volumen = (
@@ -330,53 +330,52 @@ df_top_volumen = (
     .copy()
 )
 
-# Apoyo neto SOLO para el Top 3
 df_top_volumen["apoyo_neto_pct"] = (
     (df_top_volumen["pos"] - df_top_volumen["neg"])
     / df_top_volumen["total"]
 ) * 100
 
-cols = st.columns(3)
-
-for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
+for _, fila in df_top_volumen.iterrows():
     candidate = fila["candidate"]
     total = fila["total"]
     apoyo_neto = fila["apoyo_neto_pct"]
 
-    with col:
-        with st.container():
+    with st.container(border=True):
+        col_img, col_info, col_vol, col_apoyo = st.columns(
+            [1, 4, 2, 2]
+        )
 
-            # Imagen
+        # Imagen
+        with col_img:
             if candidate in MAPA_IMAGENES:
                 st.image(
                     MAPA_IMAGENES[candidate],
-                    width=120,
+                    width=80,
                 )
 
-            # Nombre
+        # Info principal
+        with col_info:
             st.markdown(f"### {candidate}")
-
-            # Partido
             partido = MAPA_PARTIDOS.get(candidate)
             if partido:
                 st.caption(partido)
 
-            # Volumen
-            st.metric(
-                "Menciones",
-                f"{int(total):,}"
-            )
-
+        # Volumen
+        with col_vol:
+            st.markdown("**Menciones**")
             st.markdown(
-                "<div style='margin-top:8px; font-size:14px; color:#9ca3af;'>Apoyo neto</div>",
+                f"<div style='font-size:28px; font-weight:600;'>{int(total):,}</div>",
                 unsafe_allow_html=True
             )
 
+        # Apoyo neto
+        with col_apoyo:
+            st.markdown("**Apoyo neto**")
             st.markdown(
                 badge_apoyo_small(apoyo_neto),
                 unsafe_allow_html=True
             )
-            
+
             st.markdown(" ")
             st.markdown(" ")
 

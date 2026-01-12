@@ -143,6 +143,25 @@ def badge_apoyo(valor):
     </div>
     """
 
+def badge_apoyo_small(valor):
+    color = "#2ecc71" if valor >= 0 else "#e74c3c"
+    signo = "+" if valor >= 0 else ""
+    return f"""
+    <div style="
+        display:inline-block;
+        padding:6px 12px;
+        border-radius:999px;
+        background-color:{color};
+        color:white;
+        font-size:18px;
+        font-weight:600;
+        margin-top:4px;
+    ">
+        {signo}{valor:.1f}%
+    </div>
+    """
+
+
 # Auto-refresh (cada 60 segundos)
 st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
@@ -328,10 +347,13 @@ for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
                 f"{int(total):,}"
             )
 
-            # Apoyo neto (NUEVO)
-            st.markdown("**Apoyo neto**")
             st.markdown(
-                badge_apoyo(apoyo_neto),
+                "<div style='margin-top:8px; font-size:14px; color:#9ca3af;'>Apoyo neto</div>",
+                unsafe_allow_html=True
+            )
+
+            st.markdown(
+                badge_apoyo_small(apoyo_neto),
                 unsafe_allow_html=True
             )
 

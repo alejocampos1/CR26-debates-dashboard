@@ -280,8 +280,8 @@ if df_rank.empty:
 # --------------------
 # TOP 3 – MAYOR VOLUMEN DE CONVERSACIÓN
 # --------------------
-st.markdown("## 🔥 Top 3 en volumen de conversación")
-st.caption("Candidaturas con mayor cantidad de menciones durante el debate")
+st.markdown("## Top 3 en volumen de conversación")
+st.caption("### Candidaturas con mayor cantidad de menciones durante el debate")
 st.markdown(" ")
 
 df_top_volumen = (

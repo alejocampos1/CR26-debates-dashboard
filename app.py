@@ -93,6 +93,26 @@ st.markdown(
         font-size: 0.85rem;
         color: #6c757d;
     }
+    
+    /* Tarjetas Top 3: altura uniforme */
+    .top3-card {
+        min-height: 520px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Bloque superior (imagen + texto) */
+    .top3-header {
+        text-align: center;
+    }
+
+    /* Badge siempre abajo */
+    .top3-footer {
+        margin-top: auto;
+        text-align: center;
+    }
+    
     </style>
     """,
     unsafe_allow_html=True,

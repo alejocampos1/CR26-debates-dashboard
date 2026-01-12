@@ -276,6 +276,60 @@ else:
 if df_rank.empty:
     st.info("⏳ Aún no hay suficientes menciones. El debate comenzará pronto.")
     st.stop()
+    
+# --------------------
+# TOP 3 – MAYOR VOLUMEN DE CONVERSACIÓN
+# --------------------
+st.markdown("## 🔥 Top 3 en volumen de conversación")
+st.caption("Candidaturas con mayor cantidad de menciones durante el debate")
+st.markdown(" ")
+
+df_top_volumen = (
+    df_rank
+    .sort_values("total", ascending=False)
+    .head(3)
+    .copy()
+)
+
+cols = st.columns(3)
+
+for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
+    candidate = fila["candidate"]
+    total = fila["total"]
+
+    with col:
+        st.markdown(
+            """
+            <div style="
+                border:1px solid #e5e7eb;
+                border-radius:12px;
+                padding:16px;
+                text-align:center;
+            ">
+            """,
+            unsafe_allow_html=True,
+        )
+
+        if candidate in MAPA_IMAGENES:
+            st.image(
+                MAPA_IMAGENES[candidate],
+                width=120,
+            )
+
+        st.markdown(f"### {candidate}")
+
+        partido = MAPA_PARTIDOS.get(candidate)
+        if partido:
+            st.caption(partido)
+
+        st.metric(
+            "Menciones",
+            f"{int(total):,}"
+        )
+
+        st.markdown("</div>", unsafe_allow_html=True)
+
+st.markdown("---")
 
 df_hero = df_rank[df_rank["total"] >= MIN_MENCIONES_HERO].copy()
 

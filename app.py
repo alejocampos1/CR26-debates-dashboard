@@ -356,6 +356,9 @@ for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
                 badge_apoyo_small(apoyo_neto),
                 unsafe_allow_html=True
             )
+            
+            st.markdown(" ")
+            st.markdown(" ")
 
 st.markdown("---")
 

@@ -344,7 +344,7 @@ for col, (_, fila) in zip(cols, df_top_volumen.iterrows()):
     apoyo_neto = fila["apoyo_neto_pct"]
 
     with col:
-        with st.container(border=True):
+        with st.container():
 
             # Imagen
             if candidate in MAPA_IMAGENES:

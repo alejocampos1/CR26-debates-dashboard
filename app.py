@@ -19,7 +19,7 @@ from queries.debate_metrics import (
 # --------------------
 # KILL SWITCH DEL DASHBOARD
 # --------------------
-DASHBOARD_ACTIVO = True  # ← cambiar a False para apagar todo
+DASHBOARD_ACTIVO = False  # ← cambiar a False para apagar todo
 
 # Configuración general
 
@@ -194,7 +194,7 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_TSE_D3"
+DEBATE_ID = "CR26_PRES_TSE_D4"
 
 MAPEO_SENTIMIENTO_UI = {
     "positive": "Positivo",
@@ -223,6 +223,12 @@ MAPA_IMAGENES = {
     "Laura Fernández": f"{RUTA_IMAGENES}/Laura_Fernandez.png",
     "José Aguilar Berrocal": f"{RUTA_IMAGENES}/Jose_Aguilar_Berrocal.png",
     "Claudio Alpízar": f"{RUTA_IMAGENES}/Claudio_Alpizar.png",
+    
+    "Álvaro Ramos": f"{RUTA_IMAGENES}/Alvaro_Ramos.png",
+    "Douglas Caamaño": f"{RUTA_IMAGENES}/Douglas_Caamano.png",
+    "Luis Amador": f"{RUTA_IMAGENES}/Luis_Amador.png",
+    "Ariel Robles": f"{RUTA_IMAGENES}/Ariel_Robles.png",
+    "Juan Carlos Hidalgo": f"{RUTA_IMAGENES}/Juan_Carlos_Hidalgo.png",
 }
 
 
@@ -244,7 +250,19 @@ MAPA_PARTIDOS = {
     "Laura Fernández": "Partido Pueblo Soberano",
     "José Aguilar Berrocal": "Partido Avanza",
     "Claudio Alpízar": "Partido Esperanza Nacional",
+    
+    "Álvaro Ramos": "Partido Liberación Nacional",
+    "Douglas Caamaño": "Partido Alianza Primero CR",
+    "Luis Amador": "Partido Integración Nacional",
+    "Ariel Robles": "Partido Frente Amplio",
+    "Juan Carlos Hidalgo": "Partido Unidad Social Cristiana", 
 }
+
+DEBATE_CONTEXT = {
+    "nombre": "Tribunal Supremo de Elecciones - Día 4",
+    "fecha": "12 Enero 2026",
+}
+
 
 # --------------------
 # Encabezado
@@ -255,8 +273,8 @@ st.caption("### Monitoreo de la conversación digital en tiempo real")
 st.caption("##### Una iniciativa de: [SoundCheck CR](https://www.facebook.com/crsoundcheck)")
 st.markdown("---")
 
-st.markdown("## Debate Presidencial - 11 de Enero 2026")
-st.markdown("### Tribunal Supremo de Elecciones - Día 3")
+st.markdown("## Debate Presidencial - {}".format(DEBATE_CONTEXT["fecha"]))
+st.markdown("### {}".format(DEBATE_CONTEXT["nombre"]))
 st.markdown("---")
 
 # --------------------

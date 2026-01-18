@@ -125,6 +125,17 @@ st.markdown(
         -webkit-user-select: none;
         -ms-user-select: none;
     }
+    
+    /* Oculta el botón de expandir imágenes (fullscreen) */
+    button[title="View fullscreen"] {
+        display: none !important;
+    }
+
+    /* Variante adicional por si Streamlit cambia el title */
+    div[data-testid="stImage"] button {
+        display: none !important;
+    }
+    
     </style>
 
     <script>
@@ -287,7 +298,7 @@ col_logo = st.columns([1, 2, 1])[1]
 with col_logo:
     st.image(
         "assets/logo_full.png",
-        width=320,
+        width=500,
     )
 st.markdown(" ")
 st.markdown("# **🇨🇷 Elecciones 2026 – Debates Presidenciales**")

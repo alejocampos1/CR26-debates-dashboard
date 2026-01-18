@@ -110,26 +110,6 @@ st.markdown(
     </style>
     
     <style>
-        /* Contenedor relativo para imágenes */
-    div[data-testid="stImage"] {
-        position: relative;
-    }
-
-    /* Watermark */
-    div[data-testid="stImage"]::after {
-        content: "© SoundCheck CR";
-        position: absolute;
-        bottom: 8px;
-        right: 10px;
-        font-size: 11px;
-        color: rgba(255, 255, 255, 0.55);
-        background: rgba(0, 0, 0, 0.35);
-        padding: 2px 6px;
-        border-radius: 4px;
-        pointer-events: none;
-        user-select: none;
-        z-index: 10;
-    }
     
     /* Bloqueo total de interacción con imágenes */
     img {

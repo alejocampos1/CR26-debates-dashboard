@@ -210,8 +210,8 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-# DEBATE_ID = "CR26_PRES_OPA_20260118"
-DEBATE_ID = "CR26_PRES_TSE_D4"
+DEBATE_ID = "CR26_PRES_OPA_20260118"
+#DEBATE_ID = "CR26_PRES_TSE_D4"
 
 MAPEO_SENTIMIENTO_UI = {
     "positive": "Positivo",
@@ -276,8 +276,8 @@ MAPA_PARTIDOS = {
 }
 
 DEBATE_CONTEXT = {
-    "nombre": "Tribunal Supremo de Elecciones - Día 4",
-    "fecha": "12 Enero 2026",
+    "nombre": "Canal OPA - Se Busca Presidente",
+    "fecha": "18 Enero 2026",
 }
 
 

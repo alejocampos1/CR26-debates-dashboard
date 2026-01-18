@@ -272,6 +272,7 @@ st.image(
         "assets/logo_full.png",
         use_container_width=True,
     )
+st.markdown(" ")
 st.markdown("# 🇨🇷 Elecciones 2026 – Debates Presidenciales")
 st.caption("### Monitoreo de la conversación digital en tiempo real")
 st.caption("##### Una iniciativa de: [SoundCheck CR](https://www.facebook.com/crsoundcheck)")

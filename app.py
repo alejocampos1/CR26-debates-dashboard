@@ -47,19 +47,6 @@ if not DASHBOARD_ACTIVO:
     )
     st.stop()
 
-st.markdown(
-    """
-    <style>
-    * {
-        user-select: none;
-        -webkit-user-select: none;
-        -ms-user-select: none;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
 # Estilos del dashboard
 st.markdown(
     """
@@ -121,6 +108,34 @@ st.markdown(
     }
     
     </style>
+    
+    <style>
+    /* Bloqueo total de interacción con imágenes */
+    img {
+        pointer-events: none !important;
+        user-drag: none;
+        -webkit-user-drag: none;
+        -webkit-touch-callout: none;
+        user-select: none;
+    }
+
+    /* Evita selección */
+    * {
+        user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    </style>
+
+    <script>
+    // Bloquea clic derecho global
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // Bloquea drag & drop
+    document.addEventListener('dragstart', event => event.preventDefault());
+    </script>
+    
+    
     """,
     unsafe_allow_html=True,
 )
@@ -268,10 +283,19 @@ DEBATE_CONTEXT = {
 # --------------------
 # Encabezado
 # --------------------
-st.image(
-        "assets/logo_full.png",
-        use_container_width=True,
-    )
+st.markdown(
+    """
+    <div style="text-align:center;">
+        <img src="assets/logo_full.png" style="
+            width: 320px;
+            max-width: 80%;
+            margin: 0 auto;
+            display: block;
+        ">
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 st.markdown(" ")
 st.markdown("# **🇨🇷 Elecciones 2026 – Debates Presidenciales**")
 st.caption("### Monitoreo de la conversación digital en tiempo real")
@@ -677,7 +701,16 @@ with col_footer_text:
 
 with col_footer_logo:
     st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
-    st.image(
-        "assets/logo_item.png",
-        use_container_width=True,
-    )
+    st.markdown(
+    """
+    <div style="text-align:center;">
+        <img src="assets/logo_item.png" style="
+            width: 140px;
+            max-width: 100%;
+            margin: 0 auto;
+            display: block;
+        ">
+    </div>
+    """,
+    unsafe_allow_html=True,
+)

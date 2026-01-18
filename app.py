@@ -268,7 +268,10 @@ DEBATE_CONTEXT = {
 # --------------------
 # Encabezado
 # --------------------
-st.markdown("# #SOUNDCHECKCR")
+st.image(
+        "assets/logo_full.png",
+        use_container_width=True,
+    )
 st.markdown("# 🇨🇷 Elecciones 2026 – Debates Presidenciales")
 st.caption("### Monitoreo de la conversación digital en tiempo real")
 st.caption("##### Una iniciativa de: [SoundCheck CR](https://www.facebook.com/crsoundcheck)")
@@ -674,6 +677,6 @@ with col_footer_text:
 with col_footer_logo:
     st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
     st.image(
-        "assets/logo_full.png",
+        "assets/logo_item.png",
         use_container_width=True,
     )

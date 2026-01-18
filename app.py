@@ -276,7 +276,7 @@ MAPA_PARTIDOS = {
 }
 
 DEBATE_CONTEXT = {
-    "nombre": "Canal OPA - Se Busca Presidente",
+    "nombre": "Canal OPA - \"Se Busca Presidente\"",
     "fecha": "18 Enero 2026",
 }
 

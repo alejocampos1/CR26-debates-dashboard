@@ -125,17 +125,6 @@ st.markdown(
         -webkit-user-select: none;
         -ms-user-select: none;
     }
-    
-    /* Oculta el botón de expandir imágenes (fullscreen) */
-    button[title="View fullscreen"] {
-        display: none !important;
-    }
-
-    /* Variante adicional por si Streamlit cambia el title */
-    div[data-testid="stImage"] button {
-        display: none !important;
-    }
-    
     </style>
 
     <script>

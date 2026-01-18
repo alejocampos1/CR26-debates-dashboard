@@ -19,7 +19,7 @@ from queries.debate_metrics import (
 # --------------------
 # KILL SWITCH DEL DASHBOARD
 # --------------------
-DASHBOARD_ACTIVO = False  # ← cambiar a False para apagar todo
+DASHBOARD_ACTIVO = True  # ← cambiar a False para apagar todo
 
 # Configuración general
 
@@ -194,7 +194,8 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_OPA_20260118"
+# DEBATE_ID = "CR26_PRES_OPA_20260118"
+DEBATE_ID = "CR26_PRES_TSE_D4"
 
 MAPEO_SENTIMIENTO_UI = {
     "positive": "Positivo",
@@ -673,6 +674,6 @@ with col_footer_text:
 with col_footer_logo:
     st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
     st.image(
-        "assets/logo.png",
+        "assets/logo_full.png",
         use_container_width=True,
     )

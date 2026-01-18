@@ -298,7 +298,7 @@ col_logo = st.columns([1, 2, 1])[1]
 with col_logo:
     st.image(
         "assets/logo_full.png",
-        width=500,
+        width=700,
     )
 st.markdown(" ")
 st.markdown("# **🇨🇷 Elecciones 2026 – Debates Presidenciales**")

@@ -19,7 +19,7 @@ from queries.debate_metrics import (
 # --------------------
 # KILL SWITCH DEL DASHBOARD
 # --------------------
-DASHBOARD_ACTIVO = True  # ← cambiar a False para apagar todo
+DASHBOARD_ACTIVO = False  # ← cambiar a False para apagar todo
 
 # Configuración general
 
@@ -194,7 +194,7 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_TSE_D4"
+DEBATE_ID = "CR26_PRES_OPA_20260118"
 
 MAPEO_SENTIMIENTO_UI = {
     "positive": "Positivo",

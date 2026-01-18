@@ -283,19 +283,12 @@ DEBATE_CONTEXT = {
 # --------------------
 # Encabezado
 # --------------------
-st.markdown(
-    """
-    <div style="text-align:center;">
-        <img src="assets/logo_full.png" style="
-            width: 320px;
-            max-width: 80%;
-            margin: 0 auto;
-            display: block;
-        ">
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+col_logo = st.columns([1, 2, 1])[1]
+with col_logo:
+    st.image(
+        "assets/logo_full.png",
+        width=320,
+    )
 st.markdown(" ")
 st.markdown("# **🇨🇷 Elecciones 2026 – Debates Presidenciales**")
 st.caption("### Monitoreo de la conversación digital en tiempo real")
@@ -701,16 +694,8 @@ with col_footer_text:
 
 with col_footer_logo:
     st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)
-    st.markdown(
-    """
-    <div style="text-align:center;">
-        <img src="assets/logo_item.png" style="
-            width: 140px;
-            max-width: 100%;
-            margin: 0 auto;
-            display: block;
-        ">
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+    with col_footer_logo:
+        st.image(
+            "assets/logo_item.png",
+            width=140,
+        )

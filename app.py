@@ -652,8 +652,8 @@ st.markdown(" ")
 # Universo completo de redes
 df_redes_universo = pd.DataFrame({
     "platform_ui": [
-        "Facebook",
         "En Vivo (Facebook)",
+        "Facebook",
         "X (Twitter)",
         "Instagram",
         "TikTok",

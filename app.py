@@ -624,7 +624,7 @@ if not df_tiempo.empty:
         color="candidate",
         color_discrete_sequence=PALETA_NEUTRA,
         labels={
-            "tiempo": "Tiempo",
+            "tiempo": "Fecha y hora",
             "total": "Menciones",
             "candidate": "Candidato",
         },
@@ -634,9 +634,18 @@ if not df_tiempo.empty:
         height=380,
         margin=dict(t=20, b=40, l=20, r=20),
         legend_title_text="",
+        xaxis=dict(
+            tickformat="%d %b %Y · %I:%M %p",
+            tickangle=-30,
+        ),
+        locale="es",
     )
 
-    st.plotly_chart(fig_tiempo, use_container_width=True)
+    st.plotly_chart(
+        fig_tiempo,
+        use_container_width=True,
+        key="evolucion_tiempo"
+    )
 else:
     st.info("⏳ Aún no hay datos temporales suficientes.")
 

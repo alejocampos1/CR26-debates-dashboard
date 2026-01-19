@@ -395,6 +395,8 @@ df_dual["sentimiento_es"] = pd.Categorical(
     ordered=True,
 )
 
+total_menciones_debate = int(df_rank["total"].sum())
+
 # --------------------
 # HERO – Apoyo / Rechazo neto (porcentual)
 # --------------------

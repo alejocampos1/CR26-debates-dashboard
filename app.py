@@ -624,7 +624,7 @@ if not df_tiempo.empty:
         color="candidate",
         color_discrete_sequence=PALETA_NEUTRA,
         labels={
-            "tiempo": "Fecha y hora",
+            "tiempo": "Tiempo",
             "total": "Menciones",
             "candidate": "Candidato",
         },
@@ -635,8 +635,8 @@ if not df_tiempo.empty:
         margin=dict(t=20, b=40, l=20, r=20),
         legend_title_text="",
         xaxis=dict(
-            tickformat="%d %b %Y · %I:%M %p",
-            tickangle=-30,
+            tickformat="%I:%M %p",
+            tickangle=-0,
         ),
     )
 

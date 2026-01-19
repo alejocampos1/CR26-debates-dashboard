@@ -638,7 +638,6 @@ if not df_tiempo.empty:
             tickformat="%d %b %Y · %I:%M %p",
             tickangle=-30,
         ),
-        locale="es",
     )
 
     st.plotly_chart(

@@ -171,8 +171,16 @@ PALETA_NEUTRA = [
 
 # Componentes de cálculo de porcentajes para el HERO
 def badge_apoyo(valor):
-    color = "#2ecc71" if valor >= 0 else "#e74c3c"
-    signo = "+" if valor >= 0 else ""
+    if valor > 0:
+        color = "#2ecc71"   # verde
+        signo = "+"
+    elif valor < 0:
+        color = "#e74c3c"   # rojo
+        signo = ""
+    else:
+        color = "#f1c40f"   # amarillo
+        signo = ""
+
     return f"""
     <div style="
         display:inline-block;
@@ -188,8 +196,16 @@ def badge_apoyo(valor):
     """
 
 def badge_apoyo_small(valor):
-    color = "#2ecc71" if valor >= 0 else "#e74c3c"
-    signo = "+" if valor >= 0 else ""
+    if valor > 0:
+        color = "#2ecc71"
+        signo = "+"
+    elif valor < 0:
+        color = "#e74c3c"
+        signo = ""
+    else:
+        color = "#f1c40f"
+        signo = ""
+
     return f"""
     <div style="
         display:inline-block;
@@ -204,7 +220,6 @@ def badge_apoyo_small(valor):
         {signo}{valor:.1f}%
     </div>
     """
-
 
 # Auto-refresh (cada 60 segundos)
 st_autorefresh(interval=30 * 1000, key="auto_refresh")

@@ -9,7 +9,8 @@ from queries.debate_metrics import (
     obtener_ranking_sentimiento,
     obtener_sentimiento_por_candidato,
     obtener_menciones_por_red,
-    obtener_volumen_temporal_por_candidato
+    obtener_volumen_temporal_por_candidato,
+    obtener_sentimiento_en_vivo_vs_general
 )
 
 # --------------------
@@ -331,6 +332,10 @@ with obtener_conexion(
         DEBATE_ID,
         intervalo_minutos=15,
     )
+    sentimientos_en_vivo = obtener_sentimiento_en_vivo_vs_general(
+        conexion,
+        DEBATE_ID,
+    )
 
 # DataFrames
 if ranking:
@@ -376,6 +381,22 @@ if volumen_temporal:
     )
 else:
     df_tiempo = pd.DataFrame()
+    
+df_dual = pd.DataFrame(
+    sentimientos_en_vivo,
+    columns=["candidate", "fuente", "sentiment", "total"]
+)
+
+df_dual["sentimiento_es"] = df_dual["sentiment"].map(MAPEO_SENTIMIENTO_UI)
+
+df_dual["sentimiento_es"] = pd.Categorical(
+    df_dual["sentimiento_es"],
+    categories=ORDEN_SENTIMIENTO,
+    ordered=True,
+)
+
+total_menciones_debate = int(df_rank["total"].sum())
+
 
 # --------------------
 # HERO – Apoyo / Rechazo neto (porcentual)
@@ -383,6 +404,43 @@ else:
 if df_rank.empty:
     st.info("⏳ Aún no hay suficientes menciones. El debate comenzará pronto.")
     st.stop()
+    
+st.markdown(
+    f"""
+    <div style="
+        background: linear-gradient(135deg, #111827, #1f2933);
+        padding:28px;
+        border-radius:16px;
+        text-align:center;
+        margin-bottom:24px;
+    ">
+        <div style="
+            font-size:14px;
+            color:#9ca3af;
+            letter-spacing:0.08em;
+            text-transform:uppercase;
+            margin-bottom:8px;
+        ">
+            Total de menciones del debate
+        </div>
+        <div style="
+            font-size:48px;
+            font-weight:800;
+            color:white;
+        ">
+            {total_menciones_debate:,}
+        </div>
+        <div style="
+            font-size:13px;
+            color:#9ca3af;
+            margin-top:8px;
+        ">
+            Facebook · X · Instagram · TikTok · En Vivo
+        </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
     
 # --------------------
 # TOP 3 – MAYOR VOLUMEN DE CONVERSACIÓN (HORIZONTAL)
@@ -606,6 +664,45 @@ for _, fila in df_rank.iterrows():
                 use_container_width=True,
                 key=f"sentimiento_{candidate}"
             )
+            
+            df_cand_dual = df_dual[df_dual["candidate"] == candidate]
+
+            if not df_cand_dual.empty:
+                fig_dual = px.bar(
+                    df_cand_dual,
+                    x="sentimiento_es",
+                    y="total",
+                    color="sentimiento_es",
+                    facet_col="fuente",
+                    category_orders={
+                        "sentimiento_es": ORDEN_SENTIMIENTO,
+                        "fuente": ["En vivo", "General"],
+                    },
+                    color_discrete_map={
+                        "Positivo": "#2ecc71",
+                        "Neutro": "#f1c40f",
+                        "Negativo": "#e74c3c",
+                    },
+                    labels={
+                        "sentimiento_es": "Sentimiento",
+                        "total": "Menciones",
+                        "fuente": "",
+                    },
+                )
+
+                fig_dual.update_layout(
+                    height=280,
+                    margin=dict(t=30, b=20, l=20, r=20),
+                    showlegend=False,
+                )
+
+                fig_dual.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1]))
+
+                st.plotly_chart(
+                    fig_dual,
+                    use_container_width=True,
+                    key=f"dual_{candidate}"
+                )
 
         st.markdown("---")
      
@@ -709,6 +806,10 @@ with col_footer_text:
         """,
         unsafe_allow_html=True,
     )
+    
+# --------------------
+# Distribución por red social y en vivo
+# --------------------
 
 with col_footer_logo:
     st.markdown("<div style='height:40px'></div>", unsafe_allow_html=True)

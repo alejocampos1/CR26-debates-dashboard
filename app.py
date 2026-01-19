@@ -620,6 +620,9 @@ for _, fila in df_rank.iterrows():
         else:
             st.info("🟡  Conversación mixta / indecisa")
             
+        st.markdown("#### Sentimiento de la conversación")
+        st.markdown("##### General (todas las menciones) ")
+            
         df_cand = df_sent[df_sent["candidate"] == candidate].copy()
 
         df_cand["sentimiento_es"] = (
@@ -664,6 +667,8 @@ for _, fila in df_rank.iterrows():
                 use_container_width=True,
                 key=f"sentimiento_{candidate}"
             )
+            
+            st.markdown("##### General vs. En vivo (comentarios en tiempo real) ")
             
             df_cand_dual = df_dual[df_dual["candidate"] == candidate]
 

@@ -669,7 +669,9 @@ for _, fila in df_rank.iterrows():
                 key=f"sentimiento_{candidate}"
             )
             
-            st.markdown("##### En vivo vs. General (menciones en tiempo real) ")
+            st.markdown("##### En vivo vs. General (menciones en tiempo real)")
+            st.markdown(" ")
+            st.markdown(" ")
             
             df_cand_dual = df_dual[df_dual["candidate"] == candidate]
 

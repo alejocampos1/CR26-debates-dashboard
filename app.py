@@ -624,6 +624,7 @@ if not df_tiempo.empty:
         color="candidate",
         color_discrete_sequence=PALETA_NEUTRA,
         labels={
+            "tiempo": "Tiempo",
             "total": "Menciones",
             "candidate": "Candidato",
         },
@@ -681,6 +682,7 @@ fig_redes = px.bar(
     color="platform_ui",
     color_discrete_map=MAPA_COLORES_REDES,
     labels={
+        "platform_ui": "Red social",
         "total": "Menciones",
     },
 )

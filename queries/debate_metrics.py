@@ -48,18 +48,20 @@ def obtener_menciones_por_red(conexion, debate_id: str):
     query = """
     SELECT
         platform,
+        content_type,
         COUNT(*) AS total
     FROM ocdul_debates.mentions_raw
     WHERE
         debate_id = %(debate_id)s
         AND is_valid = TRUE
         AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
-    GROUP BY platform
+    GROUP BY platform, content_type
     ORDER BY total DESC;
     """
     with conexion.cursor() as cur:
         cur.execute(query, {"debate_id": debate_id})
         return cur.fetchall()
+
 
 def obtener_volumen_temporal_por_candidato(
     conexion,

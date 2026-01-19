@@ -155,6 +155,7 @@ MAPA_COLORES_REDES = {
     "Facebook": "#1877F2",
     "Instagram": "#F15BCB",
     "TikTok": "#A056E6",
+    "En Vivo (Facebook)": "#FF2626",
 }
 
 PALETA_NEUTRA = [
@@ -336,18 +337,17 @@ else:
 if redes:
     df_redes = pd.DataFrame(
         redes,
-        columns=["platform", "total"],
+        columns=["platform", "content_type", "total"],
     )
 else:
     df_redes = pd.DataFrame()
+    
+def mapear_plataforma_ui(row):
+    if row["platform"] == "facebook" and row["content_type"] == "live_comment":
+        return "En Vivo (Facebook)"
+    return MAPA_REDES_UI.get(row["platform"], row["platform"].capitalize())
 
-if not df_redes.empty:
-    df_redes["platform_ui"] = (
-        df_redes["platform"]
-        .str.lower()
-        .map(MAPA_REDES_UI)
-        .fillna(df_redes["platform"].str.capitalize())
-    )
+df_redes["platform_ui"] = df_redes.apply(mapear_plataforma_ui, axis=1)
 
 if volumen_temporal:
     df_tiempo = pd.DataFrame(
@@ -627,22 +627,29 @@ st.markdown(" ")
 
 # Universo completo de redes
 df_redes_universo = pd.DataFrame({
-    "platform": list(MAPA_REDES_UI.keys())
+    "platform_ui": [
+        "Facebook",
+        "En Vivo (Facebook)",
+        "X (Twitter)",
+        "Instagram",
+        "TikTok",
+    ]
 })
 
 # Si no hay datos, df_redes puede venir vacío
 df_redes_plot = (
     df_redes_universo
-    .merge(df_redes, on="platform", how="left")
+    .merge(
+        df_redes,
+        on="platform_ui",
+        how="left"
+    )
     .fillna({"total": 0})
 )
 
-df_redes_plot["total"] = df_redes_plot["total"].astype(int)
+df_redes_plot = df_redes_plot[["platform_ui", "total"]]
 
-df_redes_plot["platform_ui"] = (
-    df_redes_plot["platform"]
-    .map(MAPA_REDES_UI)
-)
+df_redes_plot["total"] = df_redes_plot["total"].astype(int)
 
 fig_redes = px.bar(
     df_redes_plot,

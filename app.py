@@ -601,7 +601,11 @@ for _, fila in df_rank.iterrows():
                 showlegend=False,
             )
 
-            st.plotly_chart(fig_sent, use_container_width=True)
+            st.plotly_chart(
+                fig_sent,
+                use_container_width=True,
+                key=f"sentimiento_{candidate}"
+            )
 
         st.markdown("---")
      

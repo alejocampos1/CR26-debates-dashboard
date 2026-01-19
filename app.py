@@ -347,7 +347,12 @@ def mapear_plataforma_ui(row):
         return "En Vivo (Facebook)"
     return MAPA_REDES_UI.get(row["platform"], row["platform"].capitalize())
 
-df_redes["platform_ui"] = df_redes.apply(mapear_plataforma_ui, axis=1)
+if not df_redes.empty:
+    df_redes = df_redes.assign(
+        platform_ui=df_redes.apply(mapear_plataforma_ui, axis=1)
+    )
+else:
+    df_redes["platform_ui"] = pd.Series(dtype=str)
 
 if volumen_temporal:
     df_tiempo = pd.DataFrame(

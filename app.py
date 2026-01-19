@@ -695,14 +695,21 @@ for _, fila in df_rank.iterrows():
                         "fuente": "",
                     },
                 )
+                
+                fig_dual.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1]))
+                
+                fig_dual.for_each_annotation(
+                    lambda a: a.update(
+                        font=dict(size=16, weight="bold"),
+                        y=a.y + 0.04
+                    )
+                )
 
                 fig_dual.update_layout(
                     height=280,
                     margin=dict(t=30, b=20, l=20, r=20),
                     showlegend=False,
                 )
-
-                fig_dual.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1]))
 
                 st.plotly_chart(
                     fig_dual,

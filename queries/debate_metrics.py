@@ -94,21 +94,35 @@ def obtener_volumen_temporal_por_candidato(
 
 def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str):
     query = """
-    SELECT
-        candidate,
-        CASE
-            WHEN platform = 'facebook' AND content_type = 'live_comment'
-                THEN 'En vivo'
-            ELSE 'General'
-        END AS fuente,
-        sentiment_label,
-        COUNT(*) AS total
-    FROM ocdul_debates.mentions_raw
-    WHERE
-        debate_id = %(debate_id)s
-        AND is_valid = TRUE
-    GROUP BY candidate, fuente, sentiment_label;
+        -- EN VIVO
+        SELECT
+            candidate,
+            'En vivo' AS fuente,
+            sentiment_label,
+            COUNT(*) AS total
+        FROM ocdul_debates.mentions_raw
+        WHERE debate_id = %s
+          AND is_valid = TRUE
+          AND content_type = 'live_comment'
+          AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
+        GROUP BY candidate, sentiment_label
+
+        UNION ALL
+
+        -- GENERAL (SIN LIVE)
+        SELECT
+            candidate,
+            'General' AS fuente,
+            sentiment_label,
+            COUNT(*) AS total
+        FROM ocdul_debates.mentions_raw
+        WHERE debate_id = %s
+          AND is_valid = TRUE
+          AND content_type <> 'live_comment'
+          AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
+        GROUP BY candidate, sentiment_label;
     """
     with conexion.cursor() as cur:
-        cur.execute(query, {"debate_id": debate_id})
+        cur.execute(query, (debate_id, debate_id))
         return cur.fetchall()
+

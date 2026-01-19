@@ -621,6 +621,7 @@ for _, fila in df_rank.iterrows():
             st.info("🟡  Conversación mixta / indecisa")
             
         st.markdown("#### Sentimiento de la conversación")
+        st.markdown(" ")
         st.markdown("##### General (todas las menciones) ")
             
         df_cand = df_sent[df_sent["candidate"] == candidate].copy()

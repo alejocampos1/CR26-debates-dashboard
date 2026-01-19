@@ -657,31 +657,11 @@ st.markdown("## Dónde ocurre la conversación")
 st.markdown("#### Distribución por red social (Cantidad de menciones)")
 st.markdown(" ")
 
-# Universo completo de redes
-df_redes_universo = pd.DataFrame({
-    "platform_ui": [
-        "En Vivo",
-        "Facebook",
-        "X (Twitter)",
-        "Instagram",
-        "TikTok",
-    ]
-})
-
-# Si no hay datos, df_redes puede venir vacío
 df_redes_plot = (
-    df_redes_universo
-    .merge(
-        df_redes,
-        on="platform_ui",
-        how="left"
-    )
-    .fillna({"total": 0})
+    df_redes
+    .groupby("platform_ui", as_index=False)["total"]
+    .sum()
 )
-
-df_redes_plot = df_redes_plot[["platform_ui", "total"]]
-
-df_redes_plot["total"] = df_redes_plot["total"].astype(int)
 
 fig_redes = px.bar(
     df_redes_plot,
@@ -701,8 +681,6 @@ fig_redes.update_layout(
 )
 
 st.plotly_chart(fig_redes, use_container_width=True)
-    
-st.markdown("---")
 
 
 col_footer_text, col_footer_logo = st.columns([5, 2])

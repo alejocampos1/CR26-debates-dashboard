@@ -155,7 +155,7 @@ MAPA_COLORES_REDES = {
     "Facebook": "#1877F2",
     "Instagram": "#F15BCB",
     "TikTok": "#A056E6",
-    "En Vivo (Facebook)": "#FF2626",
+    "En Vivo": "#FF2626",
 }
 
 PALETA_NEUTRA = [
@@ -359,7 +359,7 @@ else:
     
 def mapear_plataforma_ui(row):
     if row["platform"] == "facebook" and row["content_type"] == "live_comment":
-        return "En Vivo (Facebook)"
+        return "En Vivo"
     return MAPA_REDES_UI.get(row["platform"], row["platform"].capitalize())
 
 if not df_redes.empty:

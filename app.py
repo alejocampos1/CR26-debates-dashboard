@@ -395,28 +395,6 @@ df_dual["sentimiento_es"] = pd.Categorical(
     ordered=True,
 )
 
-total_menciones_debate = int(df_rank["total"].sum())
-
-check = (
-    df_dual
-    .groupby(["candidate", "fuente"])["total"]
-    .sum()
-    .unstack(fill_value=0)
-)
-
-check["suma_dual"] = check.sum(axis=1)
-
-check = check.merge(
-    df_rank[["candidate", "total"]],
-    on="candidate",
-    how="left"
-)
-
-check["delta"] = check["total"] - check["suma_dual"]
-
-st.dataframe(check)
-
-
 # --------------------
 # HERO – Apoyo / Rechazo neto (porcentual)
 # --------------------

@@ -10,7 +10,7 @@ def obtener_ranking_sentimiento(conexion, debate_id: str):
         WHERE
             debate_id = %(debate_id)s
             AND is_valid = TRUE
-            AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
+            AND original_timestamp >= TIMESTAMP '2026-01-20 18:00:00'
         GROUP BY candidate
     )
     SELECT
@@ -37,7 +37,7 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str):
     WHERE
         debate_id = %(debate_id)s
         AND is_valid = TRUE
-        AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
+        AND original_timestamp >= TIMESTAMP '2026-01-20 18:00:00'
     GROUP BY candidate, sentiment_label;
     """
     with conexion.cursor() as cur:
@@ -54,7 +54,7 @@ def obtener_menciones_por_red(conexion, debate_id: str):
     WHERE
         debate_id = %(debate_id)s
         AND is_valid = TRUE
-        AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
+        AND original_timestamp >= TIMESTAMP '2026-01-20 18:00:00'
     GROUP BY platform, content_type
     ORDER BY total DESC;
     """
@@ -84,7 +84,7 @@ def obtener_volumen_temporal_por_candidato(
             WHERE
                 debate_id = %s
                 AND is_valid = TRUE
-                AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
+                AND original_timestamp >= TIMESTAMP '2026-01-20 18:00:00'
             GROUP BY 1, 2
             ORDER BY 1 ASC
             """,
@@ -104,7 +104,7 @@ def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str):
         WHERE debate_id = %s
           AND is_valid = TRUE
           AND content_type = 'live_comment'
-          AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
+          AND original_timestamp >= TIMESTAMP '2026-01-20 18:00:00'
         GROUP BY candidate, sentiment_label
 
         UNION ALL
@@ -119,7 +119,7 @@ def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str):
         WHERE debate_id = %s
           AND is_valid = TRUE
           AND content_type <> 'live_comment'
-          AND original_timestamp >= TIMESTAMP '2026-01-18 18:00:00'
+          AND original_timestamp >= TIMESTAMP '2026-01-20 18:00:00'
         GROUP BY candidate, sentiment_label;
     """
     with conexion.cursor() as cur:

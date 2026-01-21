@@ -144,7 +144,7 @@ def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str, candidatos:
     query,
     {
         "debate_id": debate_id,
-        "candidatos": CANDIDATOS_DEBATE,
+        "candidatos": candidatos,
     }
 )
         return cur.fetchall()

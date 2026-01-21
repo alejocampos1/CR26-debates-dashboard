@@ -11,7 +11,6 @@ def obtener_ranking_sentimiento(conexion, debate_id: str, candidatos: list[str])
             SUM(CASE WHEN sentiment_label = 'negative' THEN 1 ELSE 0 END) AS negativas
         FROM ocdul_debates.mentions_raw
         WHERE
-            WHERE
             debate_id = %(debate_id)s
             AND is_valid = TRUE
             AND candidate = ANY(%(candidatos)s)
@@ -29,7 +28,13 @@ def obtener_ranking_sentimiento(conexion, debate_id: str, candidatos: list[str])
 
     """
     with conexion.cursor() as cur:
-        cur.execute(query, {"debate_id": debate_id})
+        cur.execute(
+    query,
+    {
+        "debate_id": debate_id,
+        "candidatos": candidatos,
+    }
+        )
         return cur.fetchall()
 
 def obtener_sentimiento_por_candidato(conexion, debate_id: str, candidatos: list[str]):
@@ -40,7 +45,6 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str, candidatos: list
         COUNT(*) AS total
     FROM ocdul_debates.mentions_raw
     WHERE
-        WHERE
         debate_id = %(debate_id)s
         AND is_valid = TRUE
         AND candidate = ANY(%(candidatos)s)
@@ -48,7 +52,13 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str, candidatos: list
     GROUP BY candidate, sentiment_label;
     """
     with conexion.cursor() as cur:
-        cur.execute(query, {"debate_id": debate_id})
+        cur.execute(
+    query,
+    {
+        "debate_id": debate_id,
+        "candidatos": candidatos,
+    }
+        )
         return cur.fetchall()
 
 def obtener_menciones_por_red(conexion, debate_id: str, candidatos: list[str]):
@@ -59,7 +69,6 @@ def obtener_menciones_por_red(conexion, debate_id: str, candidatos: list[str]):
         COUNT(*) AS total
     FROM ocdul_debates.mentions_raw
     WHERE
-        WHERE
         debate_id = %(debate_id)s
         AND is_valid = TRUE
         AND candidate = ANY(%(candidatos)s)
@@ -68,7 +77,13 @@ def obtener_menciones_por_red(conexion, debate_id: str, candidatos: list[str]):
     ORDER BY total DESC;
     """
     with conexion.cursor() as cur:
-        cur.execute(query, {"debate_id": debate_id})
+        cur.execute(
+    query,
+    {
+        "debate_id": debate_id,
+        "candidatos": candidatos,
+    }
+        )
         return cur.fetchall()
 
 
@@ -92,7 +107,6 @@ def obtener_volumen_temporal_por_candidato(
                 COUNT(*) AS total
             FROM ocdul_debates.mentions_raw
             WHERE
-                WHERE
                 debate_id = %(debate_id)s
                 AND is_valid = TRUE
                 AND candidate = ANY(%(candidatos)s)

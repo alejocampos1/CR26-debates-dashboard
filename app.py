@@ -292,7 +292,7 @@ MAPA_PARTIDOS = {
 }
 
 DEBATE_CONTEXT = {
-    "nombre": "Canal OPA - \"Se Busca Presidente\"",
+    "nombre": "Grupo Extra / CFIA - \"Construyamos país\"",
     "fecha": "18 Enero 2026",
 }
 

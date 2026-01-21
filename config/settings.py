@@ -6,3 +6,11 @@ CADENA_CONEXION_POSTGRES = os.getenv(
 )
 
 ESQUEMA_DB = os.getenv("ESQUEMA_DB", "ocdul_debates")
+
+CANDIDATOS_DEBATE = [
+    "Natalia Díaz",
+    "Claudia Dobles",
+    "Álvaro Ramos",
+    "Juan Carlos Hidalgo",
+    "Ariel Robles",
+]

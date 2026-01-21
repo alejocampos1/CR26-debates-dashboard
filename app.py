@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 
 from streamlit_autorefresh import st_autorefresh
-from config.settings import CADENA_CONEXION_POSTGRES
+from config.settings import CADENA_CONEXION_POSTGRES, CANDIDATOS_DEBATE
 from db.connection import obtener_conexion
 from queries.debate_metrics import (
     obtener_ranking_sentimiento,
@@ -323,7 +323,11 @@ with obtener_conexion(
     cadena_conexion=CADENA_CONEXION_POSTGRES,
 ) as conexion:
 
-    ranking = obtener_ranking_sentimiento(conexion, DEBATE_ID)
+    ranking = obtener_ranking_sentimiento(
+        conexion,
+        DEBATE_ID,
+        CANDIDATOS_DEBATE
+    )
     sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
     redes = obtener_menciones_por_red(conexion, DEBATE_ID)
     volumen_temporal = obtener_volumen_temporal_por_candidato(

@@ -345,6 +345,11 @@ if ranking:
 else:
     df_rank = pd.DataFrame()
 
+if df_rank.empty:
+    df_rank = pd.DataFrame(
+        columns=["candidate", "total", "pos", "neg", "balance"]
+    )
+
 if sentimientos:
     df_sent = pd.DataFrame(
         sentimientos,

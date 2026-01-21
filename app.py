@@ -293,7 +293,7 @@ MAPA_PARTIDOS = {
 
 DEBATE_CONTEXT = {
     "nombre": "Grupo Extra / CFIA - \"Construyamos país\"",
-    "fecha": "18 Enero 2026",
+    "fecha": "20 Enero 2026",
 }
 
 

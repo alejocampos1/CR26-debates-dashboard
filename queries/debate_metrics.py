@@ -93,30 +93,36 @@ def obtener_volumen_temporal_por_candidato(
     candidatos: list[str],
     intervalo_minutos: int = 15,
 ):
+    query = """
+    SELECT
+        to_timestamp(
+            floor(
+                extract(epoch from original_timestamp)
+                / (%(intervalo)s * 60)
+            ) * (%(intervalo)s * 60)
+        ) AS tiempo,
+        candidate,
+        COUNT(*) AS total
+    FROM ocdul_debates.mentions_raw
+    WHERE
+        debate_id = %(debate_id)s
+        AND is_valid = TRUE
+        AND candidate = ANY(%(candidatos)s)
+        AND original_timestamp >= TIMESTAMP '2026-01-20 18:00:00'
+    GROUP BY 1, 2
+    ORDER BY 1 ASC
+    """
     with conexion.cursor() as cursor:
         cursor.execute(
-            """
-            SELECT
-                to_timestamp(
-                    floor(
-                        extract(epoch from original_timestamp)
-                        / (%s * 60)
-                    ) * (%s * 60)
-                ) AS tiempo,
-                candidate,
-                COUNT(*) AS total
-            FROM ocdul_debates.mentions_raw
-            WHERE
-                debate_id = %(debate_id)s
-                AND is_valid = TRUE
-                AND candidate = ANY(%(candidatos)s)
-                AND original_timestamp >= TIMESTAMP '2026-01-20 18:00:00'
-            GROUP BY 1, 2
-            ORDER BY 1 ASC
-            """,
-            (intervalo_minutos, intervalo_minutos, debate_id),
+            query,
+            {
+                "debate_id": debate_id,
+                "candidatos": candidatos,
+                "intervalo": intervalo_minutos,
+            },
         )
         return cursor.fetchall()
+
 
 def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str, candidatos: list[str]):
     query = """

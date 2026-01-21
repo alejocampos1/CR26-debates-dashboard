@@ -326,18 +326,32 @@ with obtener_conexion(
     ranking = obtener_ranking_sentimiento(
         conexion,
         DEBATE_ID,
-        CANDIDATOS_DEBATE
+        CANDIDATOS_DEBATE,
     )
-    sentimientos = obtener_sentimiento_por_candidato(conexion, DEBATE_ID)
-    redes = obtener_menciones_por_red(conexion, DEBATE_ID)
+
+    sentimientos = obtener_sentimiento_por_candidato(
+        conexion,
+        DEBATE_ID,
+        CANDIDATOS_DEBATE,
+    )
+
+    redes = obtener_menciones_por_red(
+        conexion,
+        DEBATE_ID,
+        CANDIDATOS_DEBATE,
+    )
+
     volumen_temporal = obtener_volumen_temporal_por_candidato(
         conexion,
         DEBATE_ID,
+        CANDIDATOS_DEBATE,
         intervalo_minutos=15,
     )
+
     sentimientos_en_vivo = obtener_sentimiento_en_vivo_vs_general(
         conexion,
         DEBATE_ID,
+        CANDIDATOS_DEBATE,
     )
 
 # DataFrames

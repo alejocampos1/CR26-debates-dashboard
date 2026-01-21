@@ -1,7 +1,6 @@
 from config.settings import CANDIDATOS_DEBATE
 
 
-
 def obtener_ranking_sentimiento(conexion, debate_id: str, candidatos: list[str]):
     query = """
     WITH base AS (

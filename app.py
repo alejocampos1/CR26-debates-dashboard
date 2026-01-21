@@ -20,7 +20,7 @@ from queries.debate_metrics import (
 # --------------------
 # KILL SWITCH DEL DASHBOARD
 # --------------------
-DASHBOARD_ACTIVO = False  # ← cambiar a False para apagar todo
+DASHBOARD_ACTIVO = True  # ← cambiar a False para apagar todo
 
 # Configuración general
 

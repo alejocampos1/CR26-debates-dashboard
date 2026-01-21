@@ -2,7 +2,7 @@ from config.settings import CANDIDATOS_DEBATE
 
 
 
-def obtener_ranking_sentimiento(conexion, debate_id: str):
+def obtener_ranking_sentimiento(conexion, debate_id: str, candidatos: list[str]):
     query = """
     WITH base AS (
         SELECT
@@ -33,7 +33,7 @@ def obtener_ranking_sentimiento(conexion, debate_id: str):
         cur.execute(query, {"debate_id": debate_id})
         return cur.fetchall()
 
-def obtener_sentimiento_por_candidato(conexion, debate_id: str):
+def obtener_sentimiento_por_candidato(conexion, debate_id: str, candidatos: list[str]):
     query = """
     SELECT
         candidate,
@@ -52,7 +52,7 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str):
         cur.execute(query, {"debate_id": debate_id})
         return cur.fetchall()
 
-def obtener_menciones_por_red(conexion, debate_id: str):
+def obtener_menciones_por_red(conexion, debate_id: str, candidatos: list[str]):
     query = """
     SELECT
         platform,
@@ -76,6 +76,7 @@ def obtener_menciones_por_red(conexion, debate_id: str):
 def obtener_volumen_temporal_por_candidato(
     conexion,
     debate_id: str,
+    candidatos: list[str],
     intervalo_minutos: int = 15,
 ):
     with conexion.cursor() as cursor:
@@ -104,7 +105,7 @@ def obtener_volumen_temporal_por_candidato(
         )
         return cursor.fetchall()
 
-def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str):
+def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str, candidatos: list[str]):
     query = """
         -- EN VIVO
         SELECT

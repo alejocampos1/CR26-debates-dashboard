@@ -14,7 +14,7 @@ def obtener_menciones_base(conexion):
             FROM ocdul_debates.mentions_raw
             WHERE
                 is_valid = TRUE
-                AND original_timestamp >= TIMESTAMP '2026-01-21 18:00:00';
+                AND original_timestamp >= TIMESTAMP '2026-01-21 19:30:00';
             """
 
     return pd.read_sql(query, conexion)

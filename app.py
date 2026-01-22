@@ -227,7 +227,7 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_EXTRA_20260120"
+DEBATE_ID = "CR26_PRES_TDMAS_20260121"
 
 MAPEO_SENTIMIENTO_UI = {
     "positive": "Positivo",
@@ -292,8 +292,8 @@ MAPA_PARTIDOS = {
 }
 
 DEBATE_CONTEXT = {
-    "nombre": "Grupo Extra / CFIA - \"Construyamos país\"",
-    "fecha": "20 Enero 2026",
+    "nombre": "TD Más / Teletica Radio - \"El AntiDebate\"",
+    "fecha": "21 Enero 2026",
 }
 
 

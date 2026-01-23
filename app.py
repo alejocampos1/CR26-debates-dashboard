@@ -227,7 +227,11 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_TDMAS_20260121"
+DEBATE_ID = "CR26_PRES_MULTIMEDIOS_20260122"
+DEBATE_CONTEXT = {
+    "nombre": "Multimedios- CCECR",
+    "fecha": "22 de Enero 2026 - 7 PM",
+}
 
 MAPEO_SENTIMIENTO_UI = {
     "positive": "Positivo",
@@ -289,11 +293,6 @@ MAPA_PARTIDOS = {
     "Luis Amador": "Partido Integración Nacional",
     "Ariel Robles": "Partido Frente Amplio",
     "Juan Carlos Hidalgo": "Partido Unidad Social Cristiana", 
-}
-
-DEBATE_CONTEXT = {
-    "nombre": "TD Más / Teletica Radio - \"El AntiDebate\"",
-    "fecha": "21 Enero 2026",
 }
 
 

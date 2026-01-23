@@ -420,10 +420,9 @@ total_menciones_debate = int(df_rank["total"].sum())
 
 num_candidatos_activos = df_rank.shape[0]
 
-MIN_MENCIONES_HERO_DINAMICO = (
-    total_menciones_debate / num_candidatos_activos
-    if num_candidatos_activos > 0
-    else float("inf")
+MIN_MENCIONES_HERO_DINAMICO = max(
+    int(df_rank["total"].median()),
+    15  # piso técnico mínimo
 )
 
 MIN_MENCIONES_HERO_DINAMICO = int(MIN_MENCIONES_HERO_DINAMICO)
@@ -603,8 +602,8 @@ st.caption(
     "*Apoyo neto = % positivas − % negativas"
 )
 st.caption(
-    f"*Criterio de inclusión: mínimo {MIN_MENCIONES_HERO_DINAMICO:,} menciones "
-    f"(promedio por candidatura en este debate).*"
+    f"*Se incluyen candidaturas con una presencia comparable en la conversación del debate "
+    f"(mínimo {MIN_MENCIONES_HERO_DINAMICO:,} menciones).*"
 )
 
 

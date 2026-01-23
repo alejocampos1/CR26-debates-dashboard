@@ -230,7 +230,7 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 DEBATE_ID = "CR26_PRES_MULTIMEDIOS_20260122"
 DEBATE_CONTEXT = {
     "nombre": "Multimedios- CCECR",
-    "fecha": "22 de Enero 2026 - 7 PM",
+    "fecha": "22 de Enero 2026",
 }
 
 MAPEO_SENTIMIENTO_UI = {

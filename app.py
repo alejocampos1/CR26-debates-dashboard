@@ -418,6 +418,16 @@ df_dual["sentimiento_es"] = pd.Categorical(
 
 total_menciones_debate = int(df_rank["total"].sum())
 
+num_candidatos_activos = df_rank.shape[0]
+
+MIN_MENCIONES_HERO_DINAMICO = (
+    total_menciones_debate / num_candidatos_activos
+    if num_candidatos_activos > 0
+    else float("inf")
+)
+
+MIN_MENCIONES_HERO_DINAMICO = int(MIN_MENCIONES_HERO_DINAMICO)
+
 # --------------------
 # HERO – Apoyo / Rechazo neto (porcentual)
 # --------------------
@@ -531,7 +541,9 @@ for i, (_, fila) in enumerate(df_top_volumen.iterrows()):
 
 st.markdown("---")
 
-df_hero = df_rank[df_rank["total"] >= MIN_MENCIONES_HERO].copy()
+df_hero = df_rank[
+    df_rank["total"] >= MIN_MENCIONES_HERO_DINAMICO
+].copy()
 
 if df_hero.empty:
     st.info("⏳ Aún no hay volumen suficiente para destacar apoyos o rechazos.")
@@ -589,6 +601,10 @@ with col2:
 st.markdown(" ")
 st.caption(
     "*Apoyo neto = % positivas − % negativas"
+)
+st.caption(
+    f"*Criterio de inclusión: mínimo {MIN_MENCIONES_HERO_DINAMICO:,} menciones "
+    f"(promedio por candidatura en este debate).*"
 )
 
 

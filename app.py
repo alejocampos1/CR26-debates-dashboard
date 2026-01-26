@@ -420,12 +420,14 @@ total_menciones_debate = int(df_rank["total"].sum())
 
 num_candidatos_activos = df_rank.shape[0]
 
-MIN_MENCIONES_HERO_DINAMICO = max(
-    int(df_rank["total"].median()),
-    15  # piso técnico mínimo
-)
-
-MIN_MENCIONES_HERO_DINAMICO = int(MIN_MENCIONES_HERO_DINAMICO)
+if df_rank.empty or df_rank["total"].dropna().empty:
+    MIN_MENCIONES_HERO_DINAMICO = 15
+else:
+    mediana = df_rank["total"].median()
+    if pd.isna(mediana) or mediana <= 0:
+        MIN_MENCIONES_HERO_DINAMICO = 15
+    else:
+        MIN_MENCIONES_HERO_DINAMICO = max(int(mediana), 15)
 
 # --------------------
 # HERO – Apoyo / Rechazo neto (porcentual)

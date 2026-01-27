@@ -1,6 +1,16 @@
+import pandas as pd
 from config.settings import CANDIDATOS_DEBATE
 
+# =========================
+# Ventana temporal del debate
+# =========================
+FECHA_INICIO = pd.Timestamp("2026-01-26 17:30:00")
+FECHA_FIN = pd.Timestamp("2026-01-26 22:00:00")
 
+
+# =========================
+# Ranking de sentimiento
+# =========================
 def obtener_ranking_sentimiento(conexion, debate_id: str, candidatos: list[str]):
     query = """
     WITH base AS (
@@ -14,7 +24,8 @@ def obtener_ranking_sentimiento(conexion, debate_id: str, candidatos: list[str])
             debate_id = %(debate_id)s
             AND is_valid = TRUE
             AND candidate = ANY(%(candidatos)s)
-            AND original_timestamp >= TIMESTAMP '2026-01-26 17:30:00'
+            AND original_timestamp >= %(fecha_inicio)s
+            AND original_timestamp <= %(fecha_fin)s
         GROUP BY candidate
     )
     SELECT
@@ -25,18 +36,24 @@ def obtener_ranking_sentimiento(conexion, debate_id: str, candidatos: list[str])
         (positivas - negativas)::float / NULLIF(total_menciones, 0) AS balance_sentimiento
     FROM base
     ORDER BY total_menciones DESC;
-
     """
+
     with conexion.cursor() as cur:
         cur.execute(
-    query,
-    {
-        "debate_id": debate_id,
-        "candidatos": candidatos,
-    }
+            query,
+            {
+                "debate_id": debate_id,
+                "candidatos": candidatos,
+                "fecha_inicio": FECHA_INICIO,
+                "fecha_fin": FECHA_FIN,
+            },
         )
         return cur.fetchall()
 
+
+# =========================
+# Sentimiento por candidato
+# =========================
 def obtener_sentimiento_por_candidato(conexion, debate_id: str, candidatos: list[str]):
     query = """
     SELECT
@@ -48,19 +65,27 @@ def obtener_sentimiento_por_candidato(conexion, debate_id: str, candidatos: list
         debate_id = %(debate_id)s
         AND is_valid = TRUE
         AND candidate = ANY(%(candidatos)s)
-        AND original_timestamp >= TIMESTAMP '2026-01-26 17:30:00'
+        AND original_timestamp >= %(fecha_inicio)s
+        AND original_timestamp <= %(fecha_fin)s
     GROUP BY candidate, sentiment_label;
     """
+
     with conexion.cursor() as cur:
         cur.execute(
-    query,
-    {
-        "debate_id": debate_id,
-        "candidatos": candidatos,
-    }
+            query,
+            {
+                "debate_id": debate_id,
+                "candidatos": candidatos,
+                "fecha_inicio": FECHA_INICIO,
+                "fecha_fin": FECHA_FIN,
+            },
         )
         return cur.fetchall()
 
+
+# =========================
+# Menciones por red y tipo
+# =========================
 def obtener_menciones_por_red(conexion, debate_id: str, candidatos: list[str]):
     query = """
     SELECT
@@ -72,21 +97,28 @@ def obtener_menciones_por_red(conexion, debate_id: str, candidatos: list[str]):
         debate_id = %(debate_id)s
         AND is_valid = TRUE
         AND candidate = ANY(%(candidatos)s)
-        AND original_timestamp >= TIMESTAMP '2026-01-26 17:30:00'
+        AND original_timestamp >= %(fecha_inicio)s
+        AND original_timestamp <= %(fecha_fin)s
     GROUP BY platform, content_type
     ORDER BY total DESC;
     """
+
     with conexion.cursor() as cur:
         cur.execute(
-    query,
-    {
-        "debate_id": debate_id,
-        "candidatos": candidatos,
-    }
+            query,
+            {
+                "debate_id": debate_id,
+                "candidatos": candidatos,
+                "fecha_inicio": FECHA_INICIO,
+                "fecha_fin": FECHA_FIN,
+            },
         )
         return cur.fetchall()
 
 
+# =========================
+# Volumen temporal por candidato
+# =========================
 def obtener_volumen_temporal_por_candidato(
     conexion,
     debate_id: str,
@@ -108,10 +140,12 @@ def obtener_volumen_temporal_por_candidato(
         debate_id = %(debate_id)s
         AND is_valid = TRUE
         AND candidate = ANY(%(candidatos)s)
-        AND original_timestamp >= TIMESTAMP '2026-01-26 17:30:00'
+        AND original_timestamp >= %(fecha_inicio)s
+        AND original_timestamp <= %(fecha_fin)s
     GROUP BY 1, 2
-    ORDER BY 1 ASC
+    ORDER BY 1 ASC;
     """
+
     with conexion.cursor() as cursor:
         cursor.execute(
             query,
@@ -119,12 +153,19 @@ def obtener_volumen_temporal_por_candidato(
                 "debate_id": debate_id,
                 "candidatos": candidatos,
                 "intervalo": intervalo_minutos,
+                "fecha_inicio": FECHA_INICIO,
+                "fecha_fin": FECHA_FIN,
             },
         )
         return cursor.fetchall()
 
 
-def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str, candidatos: list[str]):
+# =========================
+# Sentimiento en vivo vs general
+# =========================
+def obtener_sentimiento_en_vivo_vs_general(
+    conexion, debate_id: str, candidatos: list[str]
+):
     query = """
         -- EN VIVO
         SELECT
@@ -137,8 +178,9 @@ def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str, candidatos:
             debate_id = %(debate_id)s
             AND is_valid = TRUE
             AND candidate = ANY(%(candidatos)s)
-          AND content_type = 'live_comment'
-          AND original_timestamp >= TIMESTAMP '2026-01-26 17:30:00'
+            AND content_type = 'live_comment'
+            AND original_timestamp >= %(fecha_inicio)s
+            AND original_timestamp <= %(fecha_fin)s
         GROUP BY candidate, sentiment_label
 
         UNION ALL
@@ -154,17 +196,20 @@ def obtener_sentimiento_en_vivo_vs_general(conexion, debate_id: str, candidatos:
             debate_id = %(debate_id)s
             AND is_valid = TRUE
             AND candidate = ANY(%(candidatos)s)
-          AND content_type <> 'live_comment'
-          AND original_timestamp >= TIMESTAMP '2026-01-26 17:30:00'
+            AND content_type <> 'live_comment'
+            AND original_timestamp >= %(fecha_inicio)s
+            AND original_timestamp <= %(fecha_fin)s
         GROUP BY candidate, sentiment_label;
     """
+
     with conexion.cursor() as cur:
         cur.execute(
-    query,
-    {
-        "debate_id": debate_id,
-        "candidatos": candidatos,
-    }
-)
+            query,
+            {
+                "debate_id": debate_id,
+                "candidatos": candidatos,
+                "fecha_inicio": FECHA_INICIO,
+                "fecha_fin": FECHA_FIN,
+            },
+        )
         return cur.fetchall()
-

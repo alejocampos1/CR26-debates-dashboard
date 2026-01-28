@@ -227,10 +227,10 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_COLUMBIA_20260126"
+DEBATE_ID = "CR26_PRES_REPRETEL_20260126"
 DEBATE_CONTEXT = {
-    "nombre": "Noticias Columbia - Universidad Latina",
-    "fecha": "26 de Enero 2026",
+    "nombre": "Repretel - Monumental",
+    "fecha": "27 de Enero 2026",
 }
 
 MAPEO_SENTIMIENTO_UI = {

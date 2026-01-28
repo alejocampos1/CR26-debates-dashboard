@@ -1,7 +1,7 @@
 import pandas as pd
 
-fecha_inicio = pd.Timestamp("2026-01-26 17:30:00")
-fecha_fin = pd.Timestamp("2026-01-26 22:00:00")
+fecha_inicio = pd.Timestamp("2026-01-27 19:00:00")
+fecha_fin = pd.Timestamp("2026-01-27 22:00:00")
 
 def obtener_menciones_base(conexion):
     query = """

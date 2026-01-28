@@ -12,6 +12,7 @@ CANDIDATOS_DEBATE = [
         "Álvaro Ramos",
         "Claudia Dobles",
         "Fabricio Alvarado",
-        "José Aguilar Berrocal",
+        "Eliécer Feinzaig",
+        "Natalia Díaz",
         "Ariel Robles"
 ]

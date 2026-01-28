@@ -14,5 +14,6 @@ CANDIDATOS_DEBATE = [
         "Fabricio Alvarado",
         "Eliécer Feinzaig",
         "Natalia Díaz",
-        "Ariel Robles"
+        "Ariel Robles",
+        "Juan Carlos Hidalgo"
 ]

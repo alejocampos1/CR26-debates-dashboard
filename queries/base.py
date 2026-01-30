@@ -18,6 +18,7 @@ def obtener_menciones_base(conexion):
             is_valid = TRUE
             AND original_timestamp >= %(fecha_inicio)s
             AND original_timestamp <= %(fecha_fin)s
+            AND debate_id = %(debate_id)s
     """
 
     params = {

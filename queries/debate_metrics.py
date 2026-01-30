@@ -4,8 +4,8 @@ from config.settings import CANDIDATOS_DEBATE
 # =========================
 # Ventana temporal del debate
 # =========================
-FECHA_INICIO = pd.Timestamp("2026-01-27 19:00:00")
-FECHA_FIN = pd.Timestamp("2026-01-27 22:00:00")
+FECHA_INICIO = pd.Timestamp("2026-01-29 18:30:00")
+FECHA_FIN = pd.Timestamp("2026-01-29 22:00:00")
 
 
 # =========================

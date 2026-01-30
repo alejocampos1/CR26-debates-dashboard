@@ -227,10 +227,10 @@ st_autorefresh(interval=30 * 1000, key="auto_refresh")
 
 
 # Contexto del debate
-DEBATE_ID = "CR26_PRES_REPRETEL_20260127"
+DEBATE_ID = "CR26_PRES_TRIVISION_20260127"
 DEBATE_CONTEXT = {
-    "nombre": "Repretel - Monumental",
-    "fecha": "27 de Enero 2026",
+    "nombre": "Noticias Trivisión",
+    "fecha": "29 de Enero 2026",
 }
 
 MAPEO_SENTIMIENTO_UI = {
